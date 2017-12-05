@@ -38,7 +38,7 @@ dodatkowe komplikacje, związane z synchronizacją stanu pomiędzy węzłami w
 klastrze.
 
 \subsection{Przypadek testowy z wykorzystaniem jednego węzła aplikacji
-  \textit{sdn\_epc}}
+  \textit{sdn\_epc}} \label{entropy_one_node}
 
 Schemat topologii sieciowej, wykorzystanej w przypadku, gdy tylko jeden węzeł
 aplikacji jest zaangażowany w przetwarzenie ruchu został przedstawiony na
@@ -123,7 +123,7 @@ Podczas każdej próby wybrane węzły końcowe generowały pakiety tła oraz
 pakiety atakujące (jeden węzeł generował jeden typ pakietów). Do generowania
 pakietów została wykorzystana biblioteka języka \textit{Python} o nazwie
 \textit{ Scapy \footnote{http://www.secdev.org/projects/scapy}}. Szczegółowe
-dane opisujące każdą z prób zostały przedstawione w tab. \ref{tab:entropy}.
+dane opisujące każdą z prób zostały przedstawione w Tab. \ref{tab:entropy}.
 \newpage
 
 \begin{table}[h!]
@@ -149,7 +149,7 @@ dane opisujące każdą z prób zostały przedstawione w tab. \ref{tab:entropy}.
 Warto zaznaczyć, że średnio 3,4\% wszystkich pakietów z danej próby nie dotarło
 do aplikacji \textit{sdn\_epc}. Wydaje się, że nie powinno wpływać to znacząco
 na uzyskane wyniki, jednak, ze względu na fakt, że przeprowadzenie tego typu
-testów wymaga znaczących zasobów obliczeniowych, do których dostęp nie jest
+testów wymaga znacznych zasobów obliczeniowych, do których dostęp nie jest
 ogólnodostępny, wpływ wspomianego zjawiska nie został naukowo zbadany.
 
 Na wykresie \ref{plot:entropy} przedstawiono średnią wartość entropii,
@@ -166,7 +166,7 @@ niej algorytmu, dla poszczególnych prób testowych.
     ymin=0.7, ymax=1.2,
     xtick={0,20,40,60,80,100},
     ytick={0.7,0.8,0.9,1,1.1,1.2},
-    legend pos=north west,
+    legend pos=outer north east,
     ymajorgrids=true,
     grid style=dashed,
 ]
@@ -178,7 +178,7 @@ niej algorytmu, dla poszczególnych prób testowych.
     coordinates {
     (0,1.164)(30,1.025)(60,0.891)(90,0.748)
     };
-    \legend{H}
+    \legend{jeden węzeł \textit{sdn\_epc}}
  
 \end{axis}
 \end{tikzpicture}
@@ -196,3 +196,103 @@ pakietów w sieci.
 Bazując na przestawionych wynikach i ich analizie, można stwiedzić, że alogorytm
 służacy do wykrywania ataku DDoS, został poprawnie zaimplementowany w aplikacji
 \textit{sdn\_epc} i umożliwa wykrycie tego typu anomali. 
+
+\subsection{Przypadek testowy z wykorzystaniem kilku węzłów aplikacji
+  \textit{sdn\_epc} działających w klastrze}
+
+Schemat topologii sieciowej wykorzystanej w przypadku, gdy kilka węzłów
+aplikacji \textit{sdn\_epc} działających w klastrze obsługuje ruch w sieci
+został zaprezentowany na Rys. \ref{fig:entropia_multi_scheme}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{entropia_multi_scheme}
+\caption{Schemat topologii sieciowej z wykorzystaniem trzech węzłów aplikacji
+  \textit{sdn\_epc} działających w klastrze}
+\label{fig:entropia_multi_scheme}
+\end{figure}
+
+Topologia przedstawiona na Rys. \ref{fig:entropia_multi_scheme} jest bardzo
+podobna do przedstawionej na Rys. \ref{fig:entropia_scheme} na stronie
+\pageref{fig:entropia_scheme}. W tym przypadku, każdy przełącznik w sieci
+komunikuje się z kontrolerem poprzez dedykowany węzeł aplikacji
+\textit{sdn\_epc}, a więc w klastrze działa dokładnie tyle węzłów
+\textit{sdn\_epc} ile jest przełączników w sieci. Każdy węzeł aplikacji obsłguje
+tylko tylko jeden przełącznik. Najważniejszą różnica, względem przypadku, gdy
+tylko jeden węzeł aplikacji obsłguje wszystkie przełączniki w sieci, jest
+rozproszenie procesu obliczania entropii na wiele węzłów \textit{sdn\_epc}.
+
+W związku z tym, że rozposzenie procesu obliczania entropii na wiele węzłów,
+wprowadziło szereg komplikacji, które należło uwzględnić, aby poprawnie ją
+obliczyć, zostały przeprowadzene dokładnie takie same próby testowe, jak opisano
+w sekcji \ref{entropy_one_node} ale z wykorzystaniem innej topologii testowej.
+Przeporwadzenie bliźniaczych prób pozwoliło porównać wyniki, tj. wartości
+entropii, w przypadku obliczania jej z użyciem jednego (patrz wykres
+\ref{plot:entropy} strona \pageref{plot:entropy}) oraz kilku węzłów
+\textit{sdn\_epc}. Takie porównanie pozwoliło ustalić, czy zaimplementowany
+algorytm działa poprawnie również w przypadku rozproszenia procesu obliczania
+entropii.
+\newpage
+
+Środowisko przygotowane na potrzeby przeprowadzenia prób testowych, z
+wykorzystaniem kilku węzłow \textit{sdn\_epc} przedstawiono na Rys.
+\ref{fig:entropy_multi_tech}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[height=11cm]{entropy_multi_tech}
+\caption{Środowisko testowe z wykorzystaniem trzech węzłów aplikacji
+  \textit{sdn\_epc} działających w klastrze}
+\label{fig:entropy_multi_tech}
+\end{figure}
+
+Testowa topologia sieciowa przedstawiona na Rys. \ref{fig:entropy_multi_tech}
+została zbudowana z takich samych komponentów i wykorzystując dokładnie takie
+same rozwiązania i technologie jak przedstawiono na Rys. \ref{fig:entropia_tech}
+strona \pageref{fig:entropia_tech} oraz opisano w sekcji \ref{entropy_one_node}.
+
+W celu zmierzenia średniej wartości entropii z wykorzystaniem wielu węzłów
+aplikacji \textit{sdn\_epc} przeprowadzono takie same próby testowe jak opisano
+w Tab. \ref{tab:entropy} strona \pageref{tab:entropy}. Uzyskane wyniki zostały
+przedstawione na wykresie \ref{plot:entropy_multi_node} wraz z wynikami
+pozyskanymi przy próbach z wykorzystaniem jednego węzła \textit{sdn\_epc}, aby
+umożliwić porównanie wyników otrzymanych z użyciem dwóch topolgii sieciowych.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    xlabel={Siła ataku [\%]},
+    ylabel={Średnia wartośc entropi},
+    xmin=0, xmax=100,
+    ymin=0.7, ymax=1.2,
+    xtick={0,20,40,60,80,100},
+    ytick={0.7,0.8,0.9,1,1.1,1.2},
+    legend pos=outer north east,
+    ymajorgrids=true,
+    grid style=dashed,
+]
+
+\addplot[
+    color=blue,
+    mark=square,
+    ]
+    coordinates {
+    (0,1.164)(30,1.025)(60,0.891)(90,0.748)
+    };
+    \addlegendentry{jeden węzeł \textit{sdn\_epc}}
+
+\addplot[
+    color=red,
+    mark=*,
+    ]
+    coordinates {
+    (0,1.171)(30,1.027)(60,0.903)(90,0.746)
+    };
+    \addlegendentry{trzy węzły \textit{sdn\_epc}}
+
+\end{axis}
+\end{tikzpicture}
+\caption{Średnia wartość entropii w zależności od siły ataku DDoS}
+\label{plot:entropy}
+\end{figure}
