@@ -17,11 +17,12 @@ poszczególne przypadki testowe oraz prezentuje analizę uzyskanych wyników.
 % w jaki sposób sprawdzamy czy algorytm działa? Liczymy entropie, trzeba to
 % ująć
  
-Aby stwierdzić, czy zaimplementowany algorytm spełnia swoją rolę tzn. pozwala
-wykryć atak DDoS w sieci SDN zostały przeanalizowane wartości entropii obliczone
-za pomocą tegoż właśnie algorytmu w dwóch różnych przypadkach testowych, z
-których każdy wykorzystywał nieco inną konfigurację testową topologi sieciowej,
-jak również samej aplikacji \textit{sdn\_epc}. Przetestowane zostały przypadki, gdy:
+Aby stwierdzić, czy zaimplementowany algorytm (\pageref{equ:entropy}) w aplikacji
+\textit{sdn\_epc} spełnia swoją rolę tzn. pozwala wykryć atak DDoS w sieci SDN
+zostały przeanalizowane wartości entropii obliczone za pomocą tegoż właśnie
+algorytmu w dwóch różnych przypadkach testowych, z których każdy wykorzystywał
+nieco inną konfigurację testową topologi sieciowej, jak również samej aplikacji
+\textit{sdn\_epc}. Przetestowane zostały przypadki, gdy: 
 \begin{enumerate}
   \item Ruch wygenerowany w sieci testowej był obsługiwany tylko przez jeden
     węzeł aplikacji \textit{sdn\_epc}.
@@ -47,7 +48,7 @@ Rys. \ref{fig:entropia_scheme}.
 \centering
 \includegraphics[width=\textwidth]{entropia_scheme}
 \caption{Schemat topologii sieciowej z wykorzystaniem jednego węzła aplikacji
-  \textit{sdn\_epc}.}
+  \textit{sdn\_epc}}
 \label{fig:entropia_scheme}
 \end{figure}
 
@@ -73,7 +74,7 @@ na środowisku testowym przedstawionym na Rys. \ref{fig:entropia_tech}.
 \centering
 \includegraphics[height=11cm]{entropia_tech}
 \caption{Środowisko testowe z wykorzystaniem jednego węzła aplikacji
-  \textit{sdn\_epc}.}
+  \textit{sdn\_epc}}
 \label{fig:entropia_tech}
 \end{figure}
 
@@ -105,8 +106,8 @@ Wykonane zostały cztery próby z atakami o sile odpowiednio: 0\%, 30\%, 60\% or
 \ref{equ:ddos_power}
 
 \begin{equation}
-\label{equ:ddos_power}
 R = \frac{P_{a}}{P_{n}} \cdot 100\%
+\label{equ:ddos_power}
 \end{equation}
 gdzie R oznacza siłę ataku, $P_{a}$ pakiety atakujące, natomiast $P_{n}$ pakiety
 tła.
@@ -116,4 +117,82 @@ Pakiety tła rozumiane są jako pakiety
 do losowo wybranych węzłów końcowych w stałych odstępach czasowych. Pakiety
 atakujące oznaczają pakiety \textit{IP}, które zawierają losowe adresy docelowe
 oraz są wysyłane do konkretnego węzła końcowego w 4-krotnie krótszych odstępach
-czasowych. 
+czasowych niż pakiety tła. 
+
+Podczas każdej próby wybrane węzły końcowe generowały pakiety tła oraz
+pakiety atakujące (jeden węzeł generował jeden typ pakietów). Do generowania
+pakietów została wykorzystana biblioteka języka \textit{Python} o nazwie
+\textit{ Scapy \footnote{http://www.secdev.org/projects/scapy}}. Szczegółowe
+dane opisujące każdą z prób zostały przedstawione w tab. \ref{tab:entropy}.
+\newpage
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{ |c|c|c|c|c| } 
+ \hline
+ R & $P_{n}$ & $P_{a}$ & interwał $P_{n}$ & interwał $P_{a}$ \\
+ \hline
+ 0\% & 3000 & 0 & 20ms & 5ms \\ 
+ \hline
+ 30\% & 3000 & 900 & 20ms & 5ms \\ 
+ \hline
+ 60\% & 3000 & 1800 & 20ms & 5ms \\ 
+ \hline
+ 90\% & 3000 & 2700 & 20ms & 5ms \\ 
+ \hline
+\end{tabular}
+\caption{Parametry prób testowych z wykorzystaniem jednego węzła aplikacji
+  \textit{sdn\_epc}} 
+\label{tab:entropy}
+\end{table}
+
+Warto zaznaczyć, że średnio 3,4\% wszystkich pakietów z danej próby nie dotarło
+do aplikacji \textit{sdn\_epc}. Wydaje się, że nie powinno wpływać to znacząco
+na uzyskane wyniki, jednak, ze względu na fakt, że przeprowadzenie tego typu
+testów wymaga znaczących zasobów obliczeniowych, do których dostęp nie jest
+ogólnodostępny, wpływ wspomianego zjawiska nie został naukowo zbadany.
+
+Na wykresie \ref{plot:entropy} przedstawiono średnią wartość entropii,
+obliczonej przez aplikację \textit{sdn\_epc} przy użyciu zaimplementowanego w
+niej algorytmu, dla poszczególnych prób testowych.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    xlabel={Siła ataku [\%]},
+    ylabel={Średnia wartośc entropi},
+    xmin=0, xmax=100,
+    ymin=0.7, ymax=1.2,
+    xtick={0,20,40,60,80,100},
+    ytick={0.7,0.8,0.9,1,1.1,1.2},
+    legend pos=north west,
+    ymajorgrids=true,
+    grid style=dashed,
+]
+ 
+\addplot[
+    color=blue,
+    mark=square,
+    ]
+    coordinates {
+    (0,1.164)(30,1.025)(60,0.891)(90,0.748)
+    };
+    \legend{H}
+ 
+\end{axis}
+\end{tikzpicture}
+\caption{Średnia wartość entropii w zależności od siły ataku DDoS}
+\label{plot:entropy}
+\end{figure}
+
+Zależność entropii od siły ataku, przedstawiona na wykresie \ref{plot:entropy},
+jest taka, jak przewidywano. Wzraz ze wzorstem siły ataku wartość entropii
+maleje, ponieważ im większa siła ataku, tym większy procent wszystkich pakietów
+w sieci trafia do jednego, atakowanego, węzła końcowego. W związku z tym,
+losowość poszczególnych pakietów spada, tym samym powodując spadek entropii
+pakietów w sieci.
+
+Bazując na przestawionych wynikach i ich analizie, można stwiedzić, że alogorytm
+służacy do wykrywania ataku DDoS, został poprawnie zaimplementowany w aplikacji
+\textit{sdn\_epc} i umożliwa wykrycie tego typu anomali. 
