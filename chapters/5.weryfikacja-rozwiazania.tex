@@ -226,7 +226,7 @@ W związku z tym, że rozposzenie procesu obliczania entropii na wiele węzłów
 wprowadziło szereg komplikacji, które należło uwzględnić, aby poprawnie ją
 obliczyć, zostały przeprowadzene dokładnie takie same próby testowe, jak opisano
 w sekcji \ref{entropy_one_node} ale z wykorzystaniem innej topologii testowej.
-Przeporwadzenie bliźniaczych prób pozwoliło porównać wyniki, tj. wartości
+Przeprowadzenie bliźniaczych prób pozwoliło porównać wyniki, tj. wartości
 entropii, w przypadku obliczania jej z użyciem jednego (patrz wykres
 \ref{plot:entropy} strona \pageref{plot:entropy}) oraz kilku węzłów
 \textit{sdn\_epc}. Takie porównanie pozwoliło ustalić, czy zaimplementowany
@@ -255,8 +255,10 @@ W celu zmierzenia średniej wartości entropii z wykorzystaniem wielu węzłów
 aplikacji \textit{sdn\_epc} przeprowadzono takie same próby testowe jak opisano
 w Tab. \ref{tab:entropy} strona \pageref{tab:entropy}. Uzyskane wyniki zostały
 przedstawione na wykresie \ref{plot:entropy_multi_node} wraz z wynikami
-pozyskanymi przy próbach z wykorzystaniem jednego węzła \textit{sdn\_epc}, aby
-umożliwić porównanie wyników otrzymanych z użyciem dwóch topolgii sieciowych.
+pozyskanymi podczas prób z wykorzystaniem jednego węzła \textit{sdn\_epc}, aby
+umożliwić porównanie wyników otrzymanych z użyciem dwóch różnych topolgii
+sieciowych.
+\newpage
 
 \begin{figure}[h]
 \centering
@@ -297,3 +299,19 @@ umożliwić porównanie wyników otrzymanych z użyciem dwóch topolgii sieciowy
   zależności od siły ataku DDoS}
 \label{plot:entropy_multi_node}
 \end{figure}
+
+Analizując wykres \ref{plot:entropy_multi_node} można zauważyć, że wartości
+obliczonej entropii w obu przypadkach są niemal identyczne. Widoczne różnice
+mogą być spowodowane przez straty pakietów w sieci (średnio w każdej próbie, z
+wykorzystaniem topologii przedstawionej na Rys. \ref{fig:entropia_multi_scheme}
+2,9\% wszystkich pakietów nie dotarło do węzła \textit{sdn\_epc}) oraz
+niedoskonałością generatora losowego wykorzystanego do generowania adresów
+docelowych dla pakietów \textit{IP} użytych do generowania ruchu podczas prób
+testowych. Ze względu na ograniczenia techniczne, związane z dostępem do zasobów
+obliczeniowych, niezbędnych do przeprowadzenia testów, zjawiska te nie zostały
+naukowo zbadane w niniejszej pracy. Jednakże różnice w wynikach są  na tyle
+małe, że można uznać iż zaimplementowany algorytm, służacy do wykrywania ataku
+DDoS, działa poprawnie zarówno w systemie rozproszonym jak i z wykorzystaniem
+jednego węzła \textit{sdn\_epc}.
+
+\section{Test skalowalności horyzontalnej}
