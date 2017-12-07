@@ -1,10 +1,10 @@
 \chapter{Weryfikacja rozwiązania}
 
-W celu weryfikacji poprawności działania zaiplementowanego systemu zostały
+W celu weryfikacji poprawności działania zaimplementowanego systemu zostały
 wykonane serie testów. System został przetestowany pod kątem sprawdzenia
 podstawowych założeń projektowych tj. poprawności wykrywania anomali, związanych
 z natężeniem ruchu, w obsługiwanej sieci oraz możliwości skalowania
-aplikacji \textit{sdn\_epc} w celu zwiększenia wydjaności systemu.
+aplikacji \textit{sdn\_epc} w celu zwiększenia wydajności systemu.
 Przeprowadzenie testów wymagało przygotowania odpowiednich scenariuszy testowych,
 zestawienia dedykowanych topolgi sieciowych oraz stworzenia rozwiązań
 pozwalających na zebranie własciwych danych z testowanego systemu. Analiza
@@ -310,8 +310,72 @@ docelowych dla pakietów \textit{IP} użytych do generowania ruchu podczas prób
 testowych. Ze względu na ograniczenia techniczne, związane z dostępem do zasobów
 obliczeniowych, niezbędnych do przeprowadzenia testów, zjawiska te nie zostały
 naukowo zbadane w niniejszej pracy. Jednakże różnice w wynikach są  na tyle
-małe, że można uznać iż zaimplementowany algorytm, służacy do wykrywania ataku
+małe, że można uznać, iż zaimplementowany algorytm, służacy do wykrywania ataku
 DDoS, działa poprawnie zarówno w systemie rozproszonym jak i z wykorzystaniem
 jednego węzła \textit{sdn\_epc}.
 
 \section{Test skalowalności horyzontalnej}
+
+Celem weryfikacji skalowalności zaproponowanego rozwiązania zostały
+przeprowadzone serie testów, podczas których zmierzono zużycie zasobów
+obliczeniowych, a konkretnie czas zajętości procesora, wykorzystanych na
+potrzeby przetwarzania ruchu sieciowego przez węzeł aplikacji \textit{sdn\_epc}.
+Testy wykonano z wykorzystaniem dwóch różnych konfiguracji sieciowych:
+\begin{enumerate}
+  \item \label{tc:cluster_1} Ruch wygenerowany w sieci testowej był obsługiwany
+    przez jeden węzeł aplikacji \textit{sdn\_epc} działający w klastrze.
+  \item \label{tc:cluster_n} Ruch wygenerowany w sieci testowej był obsługiwany
+    przez wiele węzłów aplikacji \textit{sdn\_epc} działających w klastrze.
+\end{enumerate}
+
+Porównanie średnich wartości czasu zajętości procesora pozwoliło stwierdzić,
+czy dodanie kolejnych węzłów \textit{sdn\_epc} do klastra, celem rozłożenia
+ruchu (obciążenia) na inne węzły, obniżyło zużycie zasobów przez pojedynczy
+węzeł. Podczas każdej z prób testowych pomiary zostały przeprowadzone na tym
+samym węźle aplikacji \textit{sdn\_epc}.
+
+Schematy przedstawione na Rys. \ref{fig:cluster_scheme_single_node} oraz
+Rys. \ref{fig:cluster_scheme_multi_node} odpowiadają odpowiednio przypadkom
+testowym opisanym w Ad. \ref{tc:cluster_1} oraz Ad. \ref{tc:cluster_n}. Węzeł,
+na którym dokonano pomiarów, został zaznaczony czerwonym okręgiem.
+\newpage
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{cluster_scheme_single_node}
+\caption{Schemat topologii sieciowej z wykorzystaniem jednego węzła aplikacji
+   \textit{sdn\_epc}, do obsługi ruchu sieciowego, działającego w klastrze}
+\label{fig:cluster_scheme_single_node}
+\end{figure}
+\newpage
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{cluster_scheme_multi_node}
+\caption{Schemat topologii sieciowej z wykorzystaniem trzech węzłów aplikacji
+  \textit{sdn\_epc}, do obsługi ruchu sieciowego, działających w klastrze}
+\label{fig:cluster_scheme_multi_node}
+\end{figure}
+
+Rozwiązanie przedstawione na Rys. \ref{fig:cluster_scheme_single_node}
+wykorzystuje klaster węzłów \textit{sdn\_epc}, podczas gdy tylko jeden węzeł
+jest zaangażowany w obsługę ruchu sieciowego. Takie rozwiązanie nie powinno być
+wdrożone w jakimkolwiek systemie produkcyjnym, ponieważ budowanie klastra, w
+którym używany jest tylko jeden węzeł w większości przypadków nie ma logicznego
+uzasadnienia. Rozwiązanie to zostało wykorzystane na potrzeby niniejszej pracy
+inżynierskiej tylko i wyłącznie z powodu niedoskonałości aplikacji
+\textit{sdn\_epc}. W obecnej wersji aplikacji nie zostały dokonane żadne
+optymalizacje związane z synchronizacją i dostępem do stanu, który jest
+synchronizowany pomiędzy węzłami. Z powodu braku wspomnianych optymalizacji
+działanie aplikacji w klastrze wprowadza znaczny narzut obliczeniowy. Użycie
+wymienionego wyżej rozwiązania pozwoliło niejako ująć rzeczony narzut w
+pomiarach zużycia zasobów obliczeniowych dla przypadku, gdy ruch sieciowy jest
+obsługiwany przez jeden węzeł \textit{sdn\_epc}. Innymi słowy, różnica pomiędzy
+zmierzonym zużyciem zasobów obliczeniowych dla wspominanych przypadków testowych
+nie zawiera wyż.wym. narzutu.
+
+% opis srodowiska
+% schemat srodowiska
+% opis testu - po prostu generowanie ruchu
+% wykres
+% opis wykresu - wnioski
