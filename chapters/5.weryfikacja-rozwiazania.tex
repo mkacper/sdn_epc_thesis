@@ -198,7 +198,7 @@ służacy do wykrywania ataku DDoS, został poprawnie zaimplementowany w aplikac
 \textit{sdn\_epc} i umożliwa wykrycie tego typu anomali. 
 
 \subsection{Przypadek testowy z wykorzystaniem kilku węzłów aplikacji
-  \textit{sdn\_epc} działających w klastrze}
+  \textit{sdn\_epc} działających w klastrze} \label{entropy_multi_node}
 
 Schemat topologii sieciowej wykorzystanej w przypadku, gdy kilka węzłów
 aplikacji \textit{sdn\_epc} działających w klastrze obsługuje ruch w sieci
@@ -374,8 +374,40 @@ obsługiwany przez jeden węzeł \textit{sdn\_epc}. Innymi słowy, różnica pom
 zmierzonym zużyciem zasobów obliczeniowych dla wspominanych przypadków testowych
 nie zawiera wyż.wym. narzutu.
 
-% opis srodowiska
-% schemat srodowiska
-% opis testu - po prostu generowanie ruchu
-% wykres
+Architektura środowiska wykorzystanego na potrzeby testu jest dokładnie taka
+sama jak przedstawiono na Rys. \ref{fig:entropy_multi_tech} strona
+\pageref{fig:entropy_multi_tech} oraz opisano w sekcji \ref{entropy_multi_node}.
+Wykorzystuje ona te same komponenty, rozwiązania oraz technologie jak te, które
+opisano w wyż.wym. sekcji.
+
+Scenariusz testowy, który wykorzystano podczas dwóch przeprowadznych prób
+testowych (Ad. \ref{tc:cluster_1} oraz Ad. \ref{tc:cluster_n} strona
+\pageref{tc:cluster_1}) zakładał wykorzystanie odpowiednio logicznych topologi
+sieciowych przedstawionych na Rys. \ref{fig:cluster_scheme_single_node} oraz
+Rys. \ref{fig:cluster_scheme_multi_node}. Podczas każdej z prób,
+wybrane węzły końcowe wygenerowały 6000 pakietów tła (wyjaśnienie sekcja
+\ref{entropy_multi_node}). Następnie, na wybranym węźle aplikacji
+\textit{sdn\_epc} (tym samym dla każdej próby), zmierzono średni czas zajętości
+procesora. Pomiarów dokonano z wykorzystaniem oprogramowania \textit{sysstat
+  \footnote{http://sebastien.godard.pagesperso-orange.fr}}. Wyniki obu prób
+przedstawiono na Rys. \ref{plot:cpu_usage}.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+xbar,
+width=10cm, height=3.5cm, enlargelimits=0.5,
+xlabel={Średni czas zajętości procesora [\%]},
+symbolic y coords={{1 węzeł sdn\_epc},{3 węzły sdn\_epc}},
+ytick=data,
+nodes near coords, nodes near coords align={horizontal},
+]
+\addplot coordinates {(35.30,{1 węzeł sdn\_epc}) (17.16,{3 węzły sdn\_epc})};
+\end{axis}
+\end{tikzpicture}
+\caption{Średni czas zajętości procesora dla różnych konfiguracji testowych
+  (rozmiarów klastra)}
+\label{plot:cpu_usage}
+\end{figure}
 % opis wykresu - wnioski
