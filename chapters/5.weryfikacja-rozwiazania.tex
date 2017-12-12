@@ -63,7 +63,7 @@ a kontrolerem, w celu obliczenia entropii pakietów przesyłanych w sieci.
 Jeśli algorytm został poprawnie zaimplementowany to wartość entropii,
 obliczonej za jego pomocą, powinna maleć wzraz ze spadkiem losowości pakietów
 przesyłanych w sieci testowej. Innymi słowy, im więcej pakietów w sieci jest
-adresowanych do pojedynczego węzła końcowego, tym mniejsza będzie wartość
+adresowanych do jednego, konkretnego węzła końcowego, tym mniejsza będzie wartość
 obliczonej entropii.
 
 W celu sprawdzenia czy wspomiana zależność została spełniona, koniecznym było
@@ -150,7 +150,8 @@ Warto zaznaczyć, że średnio 3,4\% wszystkich pakietów z danej próby nie dot
 do aplikacji \textit{sdn\_epc}. Wydaje się, że nie powinno wpływać to znacząco
 na uzyskane wyniki, jednak, ze względu na fakt, że przeprowadzenie tego typu
 testów wymaga znacznych zasobów obliczeniowych, do których dostęp nie jest
-ogólnodostępny, wpływ wspomianego zjawiska nie został naukowo zbadany.
+ogólnodostępny, wpływ wspomianego zjawiska nie został naukowo zbadany w
+niniejszej pracy.
 
 Na wykresie \ref{plot:entropy} przedstawiono średnią wartość entropii,
 obliczonej przez aplikację \textit{sdn\_epc} przy użyciu zaimplementowanego w
@@ -218,8 +219,8 @@ podobna do przedstawionej na Rys. \ref{fig:entropia_scheme} na stronie
 komunikuje się z kontrolerem poprzez dedykowany węzeł aplikacji
 \textit{sdn\_epc}, a więc w klastrze działa dokładnie tyle węzłów
 \textit{sdn\_epc} ile jest przełączników w sieci. Każdy węzeł aplikacji obsłguje
-tylko tylko jeden przełącznik. Najważniejszą różnica, względem przypadku, gdy
-tylko jeden węzeł aplikacji obsłguje wszystkie przełączniki w sieci, jest
+tylko jeden przełącznik. Najważniejszą różnicę, względem przypadku, gdy tylko
+jeden węzeł aplikacji obsłguje wszystkie przełączniki w sieci, jest 
 rozproszenie procesu obliczania entropii na wiele węzłów \textit{sdn\_epc}.
 
 W związku z tym, że rozposzenie procesu obliczania entropii na wiele węzłów,
@@ -410,4 +411,14 @@ nodes near coords, nodes near coords align={horizontal},
   (rozmiarów klastra)}
 \label{plot:cpu_usage}
 \end{figure}
-% opis wykresu - wnioski
+
+Na Rys. \ref{plot:cpu_usage} wyraźnie widać, że dla przypadku testowego, gdy
+wygenerowany ruch sieciowy był obsługiwany przez 3 węzły \textit{sdn\_epc}
+zużycie zasobów znacząco zmalało, względem próby, podczas której cały ruch
+siecowy obsługiwał tylko jeden węzeł \textit{sdn\_epc}. Zużycie zasobów nie
+zmalało dokładnie 3-krotnie, ponieważ działanie w aplikacji w klastrze wprowadza
+dodatkowy narzut związany m.in. z rywalizacją węzłów o dostęp do stanu, który
+jest niezbędny do ich poprawnego działania. Podsumowując, wykres
+\ref{plot:cpu_usage} dowodzi, że aplikację \textit{sdn\_epc} można skalować
+horyzontalnie, co przynosi wymierne korzyści w postaci zwiększenia wydajności
+całego rozwiązania, opisanego w niniejszej pracy.
