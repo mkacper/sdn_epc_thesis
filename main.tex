@@ -1,8 +1,6 @@
 \documentclass[a4paper,12pt,oneside,openany,titlepage]{book}
 \usepackage{amssymb}
-\usepackage{ucs}
-\usepackage[utf8x]{inputenc}
-%\usepackage[polish]{babel}
+\usepackage[utf8]{inputenc}
 \usepackage{polski}
 \usepackage[OT4]{fontenc}
 \usepackage{amsmath}
@@ -12,7 +10,8 @@
 \graphicspath{ {images/} }
 \usepackage{tabu}
 \usepackage{pgfplots}
- 
+\usepackage[nottoc]{tocbibind}
+
 \pagestyle{headings}
 
 \begin{document}
@@ -27,12 +26,18 @@
 
 \include{chapters/2.aspekty-bezp-w-sdn}
 
-\chapter{Wydajność systemów ochrony sieciowej przed atakami DDoS}
-
-\chapter{Projekt i jego implementacja}
+\include{chapters/4.projekt-i-jego-implementacja}
 
 \include{chapters/5.weryfikacja-rozwiazania}
 
 \chapter{Podsumowanie}
+
+\include{bibliography}
+
+\newpage
+\listoftables
+
+\newpage
+\listoffigures
 
 \end{document}
