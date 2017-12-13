@@ -99,3 +99,25 @@ temu, języki Erlang oraz Elixir są odpowiednie do budowy wydajnych,
 niezawodnych, systemów rozproszonych. Z tych właśnie powodów, wspomniane
 technologie zostały wykorzystane do budowy projektu przedstawionego w niniejszej
 pracy.
+
+\section{Algorytm detekcji ataku DDoS}
+
+Alogrytm detekcji ataku, zaimplementowany na potrzeby opisywanego projektu
+bazuje na entropii pakietów przepływających przez sieć SDN. Entropia pakietów
+rozumiana jest jako ich losowość. Im większa entropia tym większa losowość
+pakietów i odwrotnie \cite{mainddosarticle}. Entropia jest wyliczana na postawie
+wzoru \ref{equ:entropy}.
+
+\begin{equation}
+H = -\sum_{i=1}^{n}p_{i}\log_{}p_{i}
+\label{equ:entropy}
+\end{equation}
+gdzie $H$ oznacza wartość entropii, $n$ liczbę pakietów (tzw. rozmiar okna),
+a $p_{i}$ wartość prawdopodbieństwa wystąpienia poszczególnego pakietu.
+
+Wspomniany rozmiar okna jest defininowany jako ilość pakietów, dla których
+została obliczona entropia. Rozważając przypadek, dla okna o rozmiarze 50, przy
+założeniu, że każdy element okna wystąpił dokładnie jeden raz, wartośc entropi
+obliczonej zgodnie ze wzorem \ref{equ:entropy}, wynosi 1,70. Natomiast w
+przypadku, gdy jeden z elementów okna pojawi się dokładnie dziesięć razy, a
+pozostałe 40 elementów tylko raz, entropia wyniesie 1,47.
