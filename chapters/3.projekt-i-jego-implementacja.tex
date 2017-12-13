@@ -6,7 +6,7 @@ ważniejsze, dającego się łatwo skalować w celu zwiększenia jego wydajnośc
 Wykorzystanie właściwej archtiektury rozwiązania oraz dobór odpowiednich
 technologii do jego implementacji umożliwiły osiągnięcie zamierzonych celów.
 
-\section{Architektura rozwiązania ochrony przed atakiem DDoS}
+\section{Architektura rozwiązania wykrywania ataku DDoS}
 
 Projektując tytułowe rozwiązanie należało wziąć pod uwagę następujące czynniki:
 \begin{itemize}
@@ -116,8 +116,51 @@ gdzie $H$ oznacza wartość entropii, $n$ liczbę pakietów (tzw. rozmiar okna),
 a $p_{i}$ wartość prawdopodbieństwa wystąpienia poszczególnego pakietu.
 
 Wspomniany rozmiar okna jest defininowany jako ilość pakietów, dla których
-została obliczona entropia. Rozważając przypadek, dla okna o rozmiarze 50, przy
+została obliczona entropia. Rozważając przypadek dla okna o rozmiarze 50, przy
 założeniu, że każdy element okna wystąpił dokładnie jeden raz, wartośc entropi
-obliczonej zgodnie ze wzorem \ref{equ:entropy}, wynosi 1,70. Natomiast w
+obliczonej zgodnie ze wzorem \ref{equ:entropy} wyniesie 1,70. Natomiast w
 przypadku, gdy jeden z elementów okna pojawi się dokładnie dziesięć razy, a
 pozostałe 40 elementów tylko raz, entropia wyniesie 1,47.
+
+Przedstawiona zależność entropii i losowości pakietów została wykorzystana do
+wykrywania ataku DDoS. Atak DDoS zazwyczaj skupia się na jednym, wybranym węźle
+końcowym, czyli w przypadku ataku większość pakietów w sieci zawiera jeden,
+konkretny adres docelowy. W takiej sytuacji losowość pakietów w sieci spada, a
+co za tym idzie, spada również entropia. Bazując na tym fakcie, można ustalić
+limit wartości entropii poniżej którego, uznaje się, że w sieci nastąpił atak
+DDoS. 
+
+Algorytm zaimplementowany na potrzeby opisywanego projektu analizuje adresy
+docelowe pakietów \textit{IP} przepływających przez sieć, tj. zlicza ilość
+wystąpień każdego adresu docelowego zawartego w badanych pakietach \textit{IP}.
+Gdy ilość przeanalizwanych pakietów jest równa rozmiarowi okna obliczana jest 
+entropia. W tym celu wykorzystywane są równania: \ref{equ:entropy},
+\ref{equ:window} oraz \ref{equ:packet_prob}. 
+
+\begin{equation}
+W = \{(x_{1},y_{1}),(x_{2},y_{2}),(x_{3},y_{3}),...\}
+\label{equ:window}
+\end{equation}
+
+\begin{equation}
+p_{i} = \frac{y_{i}}{n}
+\label{equ:packet_prob}
+\end{equation}
+
+Równanie \ref{equ:window} przedstawia reprezentację okna ($W$), gdzie $x_{i}$
+oznacza dany docelowy adres \textit{IP}, a $y_{i}$ liczbę jego wystąpień w danym
+oknie. Równanie \ref{equ:packet_prob} pozwala wyliczyć prawdopodobieństwo
+danego pakietu ($p_{i}$), gdzie $y_{i}$ oznacza liczbę wystąpień danego adresu
+\textit{IP}, a $n$ liczbę wszystkich pakietów w oknie ($W$).
+
+Jeśli obliczona wartość entropii dla określonej liczby okien z rzędu
+(rekomendowana liczba okien  wynosi 5 \cite{mainddosarticle}) jest mniejsza niż
+zadana wartość, uznaje się, że w sieci nastąpił atak. 
+
+\section{Aplikacja wykrywania ataku DDoS}
+
+% Jak działą, switch <-> sdn_Epc <-> ctrl, openflow
+% ze analizuje PACKET_IN
+% że jest switch per procs
+% że da się klastrować
+% że problem z synchronizacją stanu, mnesia
