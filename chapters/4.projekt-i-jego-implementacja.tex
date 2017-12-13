@@ -11,18 +11,18 @@ technologii do jego implementacji umożliwiły osiągnięcie zamierzonych celów
 Projektując tytułowe rozwiązanie należało wziąć pod uwagę następujące czynniki:
 \begin{itemize}
   \item umiejscowienie komponentu z oprogramowaniem w architekurze sieci SDN
-  \item uzyskanie danych z sieci, pozwalających na wykrycie ataku
+  \item uzyskanie odpowiednich danych z sieci, pozwalających na wykrycie ataku
   \item wydajność działania oprogramowania
 \end{itemize}
 
 Oprogramowanie zostało zaprojektowane do działania na południowym interfejsie
-architektury sieci SDN. Takie umiejscowienie oprogramowania dostarcza wielu
-możliwości. Pierwszą z nich jest to, że oprogramowanie może być częścią
-przełącznika, kontrolera lub działać na osobnym węźle. Dodatkowo oprogramowanie
-ma dostęp do danych wymienianych pomiędzy przełącznikiem, a kontrolerem.
-Możliwość analizy tychże danych była podstawą do implementacji algorytmu do
-wykrywania ataków DDoS w sieci. Szczegóły dotycznące algorytmu zostały opisane w
-późniejszym rozdziale ninejszej pracy.
+architektury sieci SDN. Takie umiejscowienie dostarcza wielu możliwości.
+Pierwszą z nich jest to, że oprogramowanie może być częścią przełącznika,
+kontrolera lub działać na osobnym węźle. Dodatkowo oprogramowanie ma dostęp do
+danych wymienianych pomiędzy przełącznikiem, a kontrolerem. Możliwość analizy
+tychże danych była podstawą do implementacji algorytmu do wykrywania ataków DDoS
+w sieci. Szczegóły dotycznące algorytmu zostały opisane w późniejszym rozdziale
+ninejszej pracy. 
 
 Wspomniane rozwiązanie zaimplementowano z myślą o działaniu na osobnym węźle,
 ponieważ dzięki takiemu podejściu, w przypadku równoległego działania
@@ -61,4 +61,41 @@ zwiększenia wydajności systemu, rozumianego jako kilka współpracujących ze 
 instancji. System taki, można zastosować do większych, pracujących pod większym
 obciążeniem sieci. 
 
-\section{Wybór technik i narzędzi do implementacji systemu}
+\section{Wybór odpowiednich technologii do implementacji systemu}
+
+Podstawowym kryterium wyboru odpowiednich technologii do realizacji projektu
+była wydajność. Wydajność jest rozumiana jako ilość pracy wykonana przez system
+komputerowy w danym czasie i przy wykorzystaniu danej ilości zasobów
+obliczeniowych \cite{distrforfunandprof}. Na potrzeby projektu, odpowiedni
+poziom wydajności został zapewniony dzięki doborze techologi, które wspierają
+koncepcję programowania współbieżnego, czyli możliwość wykonywania się
+oprogramowania z wykorzytaniem wielu wątków fizycznych procesora maszyny, na
+której zostało ono uruchomione. Ponadto, przy wyborze technologi, kierowano się
+również natywnym wsparciem dla możliwosći dystrybucji oprogramowania na wiele
+maszyn fizycznych, czyli, innymi słowy, wsparciem dla budowania systemów
+rozproszonych. Możliwość rozbudowy systemu z wykorzystaniem wielu maszyn jest
+kluczowa, ponieważ nawet dysponując technolgią ze wsparciem dla programowania
+współbieżnego, istnieje granica dla rozbudowy zasobów sprzętowych, dlatego w
+pewnym momencie koniecznym jest budowa systemu rozproszonego
+\cite{distrforfunandprof}. 
+
+Wykorzystanie technolgii, która umożliwa programowanie współbieżne oraz wspiera
+budowę systemów rozporosznych, umożliwiło taką implementację projeku, która
+pozwala na łatwe oraz efektywne jego skalowanie, celem zwiększenia wydajności.
+
+Technologiami, które spełniają wszystkie wyżej wymienione wytyczne są funkcyjne
+języki programowania Erlang oraz Elixir. Oba języki działają na Maszynie
+Wirtualnej Erlanga (BEAM). W rzeczywistości Elixir jest nowoczesną wersją
+Erlanga, dopasowaną do dzisiejszych standardów. Oferuje on szereg nowoczesnych,
+ułatwiających pracę programistyczną narzędzi, których Erlang nie posiada. W
+rzeczywistości Elixir jest Erlangową aplikacją działającą na Maszynie Wirtualnej
+Erlanga \cite{thebeambook}.
+
+Maszyna Wirtualna Erlanga wprowadza model aktorów
+\footnote{https://en.wikipedia.org/wiki/Actor\_model}, dzięki czemu posiada
+natywne wsparcie dla programowania równoległego. Ponadto, BEAM zapewnia
+również wsparcie dla budowy systemów rozproszonych \cite{lyserlang}. Dzięki
+temu, języki Erlang oraz Elixir są odpowiednie do budowy wydajnych,
+niezawodnych, systemów rozproszonych. Z tych właśnie powodów, wspomniane
+technologie zostały wykorzystane do budowy projektu przedstawionego w niniejszej
+pracy.
