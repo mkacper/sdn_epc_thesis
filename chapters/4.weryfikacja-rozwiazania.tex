@@ -98,6 +98,18 @@ korzystał z oprogramowania zbudowanego z wykrzystaniem framework'a
 dla \textit{sdn\_epc} i \textit{SDN controller} działały pod kontrolą systemu
 operacyjnego \textit{Ubuntu \footnote{https://www.ubuntu.com}}.
 
+W celu poprawnego działania algorymu musi zostać spełnione założenie: dla
+każdego nowego połączenia (adres źródłowy/docelowy, port źródłowy/docelowy oraz
+protokół; na potrzeby ninejszej pracy wykorzystano tylko adres
+docelowy/źródłowy) kontroler sieci SDN instaluje nowy przepływ w przełączniku
+sieci SDN \cite{mainddosarticle}. Przy takim założeniu, każde nowe połączenie w
+sieci wygeneruje wiadomość \textit{PACKET\_IN}, która następnie zostanie
+przeanalizowana przez węzeł \textit{sdn\_epc}. Aby spełnić przytoczone
+założenie należało zmodyfikować logikę przełącznika zaimplementowaną w
+kontrolerze. Modyfikacja wymagała przeprogramowania \textit{Python}'owego
+skrytpu odpowiedzialnego za implementację logiki przełącznika w oprogramowaniu
+kontrolera \cite{ryupage}.
+
 Scenariusz testowy zakładał przeprowadzenie kilku prób, podczas których w sieci
 były generowane ataki DDoS o różnej sile. Podczas każdej próby została zmierzona
 średnia wartość entropii obliczonej za pomocą zaimplementowanego algorytmu.
