@@ -169,6 +169,8 @@ kompilowne do tego samego kodu binarnego i wykonują się na tej samej maszynie
 wirtualnej (\textit{BEAM}). Ponadto, kompilator Elixira potrafi również
 kompilować kod Erlanga.
 
+\subsection{Zasada działania aplikacji}
+
 Jak przedstawiono na Rys. \ref{fig:sdn_epc_flow} strona
 \pageref{fig:sdn_epc_flow} aplikacja \textit{sdn\_epc} została zaprogramowana
 jako osobny komponent, działający na osobnej maszynie, połączony bezpośrednio z
@@ -191,9 +193,40 @@ wiadomości \textit{PACKET\_IN}. Wyniki zapisywane są w rozproszonej bazie dany
 dostarczanej razem ze standardową dystrybucją Erlanga. Następnie, zapisane
 wyniki wykorzystywane są do działania wspomnianego algorytmu.
 
+\subsection{Wydajność aplikacji}
 
-% jak działą, switch <-> sdn_Epc <-> ctrl, openflow
-% ze analizuje PACKET_IN
-% że jest switch per procs
-% że da się klastrować
+Architektura aplikacji \textit{sdn\_epc} uwzględnia możliwosci jakie daje
+Maszyna Wirtualna Erlanga w zakresie programowania równoległego oraz dystrybucji
+oprogramowania na wiele węzłów. Dzięki wsparciu dla programowania równoległego
+aplikacja \textit{sdn\_epc} może w tym samym czasie obsługiwać wiele (w
+rzeczywistości tyle ile wątków może obsłużyc maszyna, na której działa
+aplikacja) podłączonych do niej przełączników sieci SDN. \textit{BEAM} wprowadza
+koncepcję procesów, w kontekście których, wykonuje się każdy kawałek
+Erlangowego/Elixirowego kodu. Koncepcja ta jest podobna do koncepcji procesów
+systemowych - wykonują się one na wszystkich procesorach (jeden proces na
+jednym procesorze w tym samym czasie), ale mają znacznie mniejszy narzut w
+kontekście zużycia zasobów systemowych niż tradycyjne procesy \cite{progelixir}.
+Wykorzystując koncepcję procesów, kod odpowiedzialny za obsługę przełączników
+podłączonych do aplikacji wykonuje się w osobnym procesie dla każdego z
+przełączników. Innym słowy, każdy przełącznik jest obsługiwany przez osobny,
+dedykowany dla niego proces, co umożliwa jednoczesną obsługę wielu
+przełączników.
+
+Aplikacja \textit{sdn\_epc} może działać w klastrze, dzięki czemu możliwe jest
+zwiększenie jej wydajności. Do działania w klastrze aplikacja wykorzystuje
+wbudowany w \textit{BEAM}'a mechanizm zwany \textit{Erlang Distributed}
+\footnote{http://erlang.org/doc/reference\_manual/distributed.html}. Mechnizm
+ten umożliwa komunikowanie się ze sobą wielu węzłów (Maszyn Wirtualnych
+Erlanga) \cite{erldocs}. Dzięki wspomnianej koncepcji procesów rozproszenie
+oprogramowania na wiele węzłów nie stanowi problemu, ponieważ z punktu widzenia
+Erlangowego systemu nie ma znaczenia, na którym węźle wykonuje się dany proces
+(procesy komunikują się w ten sam sposób, niezależnie od węzła na którym
+działają \cite{erldocs}). Jednkaże, w przypadku działania w aplikacji
+\textit{sdn\_epc} w klastrze, pojawił się problem z synchronizacją stanu (danych
+zapisywanych na potrzeby algorytmu do wykrywania ataku DDoS) pomiędzy węzłami.
+
+%OK jak działą, switch <-> sdn_Epc <-> ctrl, openflow
+%OK ze analizuje PACKET_IN
+%OK że jest switch per procs
+%OK że da się klastrować
 % że problem z synchronizacją stanu, mnesia
