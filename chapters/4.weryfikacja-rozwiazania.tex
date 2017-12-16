@@ -17,12 +17,13 @@ poszczególne przypadki testowe oraz prezentuje analizę uzyskanych wyników.
 % w jaki sposób sprawdzamy czy algorytm działa? Liczymy entropie, trzeba to
 % ująć
  
-Aby stwierdzić, czy zaimplementowany algorytm (\pageref{equ:entropy}) w aplikacji
-\textit{sdn\_epc} spełnia swoją rolę tzn. pozwala wykryć atak DDoS w sieci SDN
-zostały przeanalizowane wartości entropii obliczone za pomocą tegoż właśnie
-algorytmu w dwóch różnych przypadkach testowych, z których każdy wykorzystywał
-nieco inną konfigurację testową topologi sieciowej, jak również samej aplikacji
-\textit{sdn\_epc}. Przetestowane zostały przypadki, gdy: 
+Aby stwierdzić, czy zaimplementowany algorytm (rozdział \ref{algorithm} strona
+\pageref{algorithm}) w aplikacji \textit{sdn\_epc} spełnia swoją rolę tzn.
+pozwala wykryć atak DDoS w sieci SDN zostały przeanalizowane wartości entropii
+obliczone za pomocą tegoż właśnie algorytmu w dwóch różnych przypadkach
+testowych, z których każdy wykorzystywał nieco inną konfigurację testową
+topologi sieciowej, jak również samej aplikacji \textit{sdn\_epc}. Przetestowane
+zostały przypadki, gdy:  
 \begin{enumerate}
   \item Ruch wygenerowany w sieci testowej był obsługiwany tylko przez jeden
     węzeł aplikacji \textit{sdn\_epc}.
@@ -34,8 +35,7 @@ poprawności implementacji algorytmu zarówno w przypadku działania systemu jak
 pojedynczy węzeł aplikacji \textit{sdn\_epc}, jak również w przypadku, gdy
 system działał w klastrze. Drugi przypadek jest znacznie bardziej złożony,
 ponieważ rozproszenie procesu obliczania algorytmu na wiele węzłów wprowadza
-dodatkowe komplikacje, związane z synchronizacją stanu pomiędzy węzłami w
-klastrze.
+dodatkowe komplikacje, związane z synchronizacją stanu pomiędzy węzłami.
 
 \subsection{Przypadek testowy z wykorzystaniem jednego węzła aplikacji
   \textit{sdn\_epc}} \label{entropy_one_node}
@@ -91,7 +91,7 @@ Przełączniki sieci SDN (\textit{SDN switch}'es) oraz węzły końcowe (\textit
 \textit{Mininet \footnote{http://mininet.org}}. Wykorzystane w teście
 przełączniki to domyślne przełączniki używane przez oprogramowanie
 \textit{Mininet}, które działają na bazie oprogramowania
-\textit{Open vSwitch \footnote{http://openvswitch.org}}.
+\textit{Open vSwitch \footnote{http://openvswitch.org}} \cite{mininetwiki}.
 \textit{SDN controller}, pełniący funkcję kontrolera w testowej topologii,
 korzystał z oprogramowania zbudowanego z wykrzystaniem framework'a
 \textit{Ryu \footnote{https://osrg.github.io/ryu}}. Maszyny wirtualne dedykowane
@@ -115,7 +115,7 @@ były generowane ataki DDoS o różnej sile. Podczas każdej próby została zmi
 średnia wartość entropii obliczonej za pomocą zaimplementowanego algorytmu.
 Wykonane zostały cztery próby z atakami o sile odpowiednio: 0\%, 30\%, 60\% oraz
 90\%. Siła każdego ataku została obliczona na podstawie wzoru
-\ref{equ:ddos_power}
+\ref{equ:ddos_power} \cite{mainddosarticle}
 
 \begin{equation}
 R = \frac{P_{a}}{P_{n}} \cdot 100\%
@@ -158,7 +158,7 @@ dane opisujące każdą z prób zostały przedstawione w Tab. \ref{tab:entropy}.
 \end{table}
 
 Warto zaznaczyć, że średnio 3,4\% wszystkich pakietów z danej próby nie dotarło
-do aplikacji \textit{sdn\_epc}. Wydaje się, że nie powinno wpływać to znacząco
+do aplikacji \textit{sdn\_epc}. Wydaje się, że nie powinno wpłynąć to znacząco
 na uzyskane wyniki, jednak, ze względu na fakt, że przeprowadzenie tego typu
 testów wymaga znacznych zasobów obliczeniowych, do których dostęp nie jest
 ogólnodostępny, wpływ wspomianego zjawiska nie został naukowo zbadany w
@@ -197,9 +197,10 @@ niej algorytmu, dla poszczególnych prób testowych.
 \caption{Średnia wartość entropii w zależności od siły ataku DDoS}
 \label{plot:entropy}
 \end{figure}
+\newpage
 
 Zależność entropii od siły ataku, przedstawiona na wykresie \ref{plot:entropy},
-jest taka, jak przewidywano. Wzraz ze wzorstem siły ataku wartość entropii
+jest taka, jak przewidywano. Wzraz ze wzrostem siły ataku wartość entropii
 maleje, ponieważ im większa siła ataku, tym większy procent wszystkich pakietów
 w sieci trafia do jednego, atakowanego, węzła końcowego. W związku z tym,
 losowość poszczególnych pakietów spada, tym samym powodując spadek entropii
@@ -231,8 +232,8 @@ podobna do przedstawionej na Rys. \ref{fig:entropia_scheme} na stronie
 komunikuje się z kontrolerem poprzez dedykowany węzeł aplikacji
 \textit{sdn\_epc}, a więc w klastrze działa dokładnie tyle węzłów
 \textit{sdn\_epc} ile jest przełączników w sieci. Każdy węzeł aplikacji obsłguje
-tylko jeden przełącznik. Najważniejszą różnicę, względem przypadku, gdy tylko
-jeden węzeł aplikacji obsłguje wszystkie przełączniki w sieci, jest 
+tylko jeden przełącznik. Najważniejszą różnicą, względem przypadku, gdy tylko
+jeden węzeł aplikacji obsługuje wszystkie przełączniki w sieci, jest 
 rozproszenie procesu obliczania entropii na wiele węzłów \textit{sdn\_epc}.
 
 W związku z tym, że rozposzenie procesu obliczania entropii na wiele węzłów,
@@ -245,7 +246,6 @@ entropii, w przypadku obliczania jej z użyciem jednego (patrz wykres
 \textit{sdn\_epc}. Takie porównanie pozwoliło ustalić, czy zaimplementowany
 algorytm działa poprawnie również w przypadku rozproszenia procesu obliczania
 entropii.
-\newpage
 
 Środowisko przygotowane na potrzeby przeprowadzenia prób testowych, z
 wykorzystaniem kilku węzłow \textit{sdn\_epc} przedstawiono na Rys.
@@ -271,7 +271,6 @@ przedstawione na wykresie \ref{plot:entropy_multi_node} wraz z wynikami
 pozyskanymi podczas prób z wykorzystaniem jednego węzła \textit{sdn\_epc}, aby
 umożliwić porównanie wyników otrzymanych z użyciem dwóch różnych topolgii
 sieciowych.
-\newpage
 
 \begin{figure}[h]
 \centering
@@ -378,14 +377,14 @@ którym używany jest tylko jeden węzeł w większości przypadków nie ma logi
 uzasadnienia. Rozwiązanie to zostało wykorzystane na potrzeby niniejszej pracy
 inżynierskiej tylko i wyłącznie z powodu niedoskonałości aplikacji
 \textit{sdn\_epc}. W obecnej wersji aplikacji nie zostały dokonane żadne
-optymalizacje związane z synchronizacją i dostępem do stanu, który jest
-synchronizowany pomiędzy węzłami. Z powodu braku wspomnianych optymalizacji
-działanie aplikacji w klastrze wprowadza znaczny narzut obliczeniowy. Użycie
-wymienionego wyżej rozwiązania pozwoliło niejako ująć rzeczony narzut w
-pomiarach zużycia zasobów obliczeniowych dla przypadku, gdy ruch sieciowy jest
-obsługiwany przez jeden węzeł \textit{sdn\_epc}. Innymi słowy, różnica pomiędzy
-zmierzonym zużyciem zasobów obliczeniowych dla wspominanych przypadków testowych
-nie zawiera wyż.wym. narzutu.
+optymalizacje związane z synchronizacją i dostępem do stanu pomiędzy węzłami. Z
+powodu braku wspomnianych optymalizacji działanie aplikacji w klastrze wprowadza
+znaczny narzut obliczeniowy. Użycie wymienionego wyżej rozwiązania pozwoliło
+niejako ująć rzeczony narzut w pomiarach zużycia zasobów obliczeniowych dla
+przypadku, gdy ruch sieciowy jest obsługiwany przez jeden węzeł
+\textit{sdn\_epc}. Innymi słowy, różnica pomiędzy zmierzonym zużyciem zasobów
+obliczeniowych dla wspominanych przypadków testowych nie zawiera wyż.wym.
+narzutu. 
 
 Architektura środowiska wykorzystanego na potrzeby testu jest dokładnie taka
 sama jak przedstawiono na Rys. \ref{fig:entropy_multi_tech} strona

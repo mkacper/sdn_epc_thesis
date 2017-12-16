@@ -21,10 +21,10 @@ Pierwszą z nich jest to, że oprogramowanie może być częścią przełącznik
 kontrolera lub działać na osobnym węźle. Dodatkowo oprogramowanie ma dostęp do
 danych wymienianych pomiędzy przełącznikiem, a kontrolerem. Możliwość analizy
 tychże danych była podstawą do implementacji algorytmu do wykrywania ataków DDoS
-w sieci. Szczegóły dotycznące algorytmu zostały opisane w późniejszym rozdziale
+w sieci. Szczegóły dotyczące algorytmu zostały opisane w późniejszym rozdziale
 ninejszej pracy. 
 
-Wspomniane rozwiązanie zaimplementowano z myślą o działaniu na osobnym węźle,
+Oprogramowanie zaimplementowano z myślą o działaniu na osobnym węźle,
 ponieważ dzięki takiemu podejściu, w przypadku równoległego działania
 oprogramowania, liczba jego instancji jest niezależna od liczby przełączników
 lub kontrolerów. Dzięki temu, możliwe jest bardziej elastyczne skalowanie
@@ -45,21 +45,21 @@ przedstawiona na Rys. \ref{fig:sdn_epc_flow}.
 \label{fig:sdn_epc_flow}
 \end{figure}
 
-Jak zostało przedstawione na Rys. \ref{fig:sdn_epc_flow} węzły końcowe
+Jak przedstawiono na Rys. \ref{fig:sdn_epc_flow} węzły końcowe
 (\textit{PC N}) komunikują się ze sobą z wykorzystaniem przełącznika sieci SDN
 (\textit{SDN switch}), a cały ruch pomiędzy przełącznikiem, a kontrolerem
-(\textit{SDN controller}) przemieszcza się przez wspomniany komponent
-implementujący rozwiązanie projektowe (\textit{sample component}).
+(\textit{SDN controller}) przepływa przez wspomniany komponent implementujący
+rozwiązanie projektowe (\textit{sample component}). 
 
 Topologia zaprezentowana na Rys \ref{fig:sdn_epc_flow}, jak wspomniano, jest
-tolopogią najbardziej podstawową, odpowiednią do wykorzystania prezentowanego
-rozwiązania. Możliwe jest również, zastosowanie tego rozwiązania w bardziej
+tolopogią najbardziej podstawową, odpowiednią do wykorzystania przybliżonego
+rozwiązania. Możliwe jest również zastosowanie go w bardziej
 rozbudowanej sieci, składającej się z większej liczby węzłów końcowych, 
-przełączników oraz kontrolerów. W takim przypadku, można zastosować kilka
-instancji równlegle działającego oprogramowania (komponentu), w celu
-zwiększenia wydajności systemu, rozumianego jako kilka współpracujących ze sobą
-instancji. System taki, można zastosować do większych, pracujących pod większym
-obciążeniem sieci. 
+przełączników oraz kontrolerów. W takim przypadku, można użyć kilku instancji
+równlegle działającego oprogramowania (komponentu), w celu zwiększenia
+wydajności systemu, rozumianego jako kilka współpracujących ze sobą instancji.
+System taki, można zastosować do większych, pracujących pod większym obciążeniem
+sieci.
 
 \section{Wybór odpowiednich technologii do implementacji systemu}
 
@@ -84,8 +84,8 @@ budowę systemów rozporosznych, umożliwiło taką implementację projeku, któ
 pozwala na łatwe oraz efektywne jego skalowanie, celem zwiększenia wydajności.
 
 Technologiami, które spełniają wszystkie wyżej wymienione wytyczne są funkcyjne
-języki programowania Erlang oraz Elixir. Oba języki działają na Maszynie
-Wirtualnej Erlanga (\textit{BEAM}). W rzeczywistości Elixir jest nowoczesną wersją
+języki programowania Erlang oraz Elixir. Oba te języki działają na Maszynie
+Wirtualnej Erlanga (\textit{BEAM}). Elixir jest nowoczesną wersją
 Erlanga, dopasowaną do dzisiejszych standardów. Oferuje on szereg nowoczesnych,
 ułatwiających pracę programistyczną narzędzi, których Erlang nie posiada. W
 rzeczywistości Elixir jest Erlangową aplikacją działającą na Maszynie Wirtualnej
@@ -116,7 +116,7 @@ gdzie $H$ oznacza wartość entropii, $n$ liczbę pakietów (tzw. rozmiar okna),
 a $p_{i}$ wartość prawdopodbieństwa wystąpienia poszczególnego pakietu.
 
 Wspomniany rozmiar okna jest defininowany jako ilość pakietów, dla których
-została obliczona entropia. Rozważając przypadek dla okna o rozmiarze 50, przy
+jest obliczana entropia. Rozważając przypadek dla okna o rozmiarze 50, przy
 założeniu, że każdy element okna wystąpił dokładnie jeden raz, wartośc entropi
 obliczonej zgodnie ze wzorem \ref{equ:entropy} wyniesie 1,70. Natomiast w
 przypadku, gdy jeden z elementów okna pojawi się dokładnie dziesięć razy, a
@@ -130,13 +130,12 @@ co za tym idzie, spada również entropia. Bazując na tym fakcie, można ustali
 limit wartości entropii poniżej którego, uznaje się, że w sieci nastąpił atak
 DDoS. 
 
-Algorytm zaimplementowany na potrzeby opisywanego projektu analizuje adresy
-docelowe pakietów \textit{IP} przepływających przez sieć, tj. zlicza ilość
-wystąpień każdego adresu docelowego zawartego w badanych pakietach \textit{IP}.
-Gdy ilość przeanalizwanych pakietów jest równa rozmiarowi okna obliczana jest 
-entropia. W tym celu wykorzystywane są równania: \ref{equ:entropy},
-\ref{equ:window} \cite{mainddosarticle} oraz \ref{equ:packet_prob}
-\cite{mainddosarticle}.
+Zaimplementowany algorytm analizuje adresy docelowe pakietów \textit{IP}
+przepływających przez sieć, tj. zlicza ilość wystąpień każdego adresu docelowego
+zawartego w badanych pakietach \textit{IP}. Gdy ilość przeanalizwanych pakietów
+jest równa rozmiarowi okna obliczana jest entropia. W tym celu wykorzystywane są
+równania: \ref{equ:entropy}, \ref{equ:window} \cite{mainddosarticle} oraz
+\ref{equ:packet_prob} \cite{mainddosarticle}.
 
 \begin{equation}
 W = \{(x_{1},y_{1}),(x_{2},y_{2}),(x_{3},y_{3}),...\}
@@ -162,11 +161,11 @@ zadana wartość, uznaje się, że w sieci nastąpił atak.
 Aplikacja \textit{sdn\_epc} \footnote{https://github.com/mkacper/sdn\_epc}
 (\textit{Software Defined Networking Elixir Pseudo Controller}) została w
 głównej mierze wykonana przy użyciu języka programowania Elixir, aczkolwiek
-wykorzstuje również kod napisany w Erlangu (głównie do interakcji z zewnętrznymi
-Erlangowymi bibliotekami). Użycie dwóch języków jednocześnie było możliwe,
-ponieważ, jak wspomniano we wcześniejszym rozdziale, oba te języki finalnie są
-kompilowne do tego samego kodu binarnego i wykonują się na tej samej maszynie
-wirtualnej (\textit{BEAM}). Ponadto, kompilator Elixira potrafi również
+wykorzystuje również kod napisany w Erlangu (głównie do interakcji z
+zewnętrznymi Erlangowymi bibliotekami). Użycie dwóch języków jednocześnie było
+możliwe, ponieważ, jak wspomniano we wcześniejszym rozdziale, oba te języki
+finalnie są kompilowne do tego samego kodu binarnego i wykonują się na tej samej
+maszynie wirtualnej (\textit{BEAM}). Ponadto, kompilator Elixira potrafi również 
 kompilować kod Erlanga.
 
 \subsection{Zasada działania aplikacji}
@@ -176,7 +175,7 @@ Jak przedstawiono na Rys. \ref{fig:sdn_epc_flow} strona
 jako osobny komponent, działający na osobnej maszynie, połączony bezpośrednio z
 przełącznikami oraz z kontrolerm sieci SDN. Komponenty te komunikują się ze
 sobą z wykorzystaniem protokołu \textit{OpenFlow}. W przedstawionej konfiguracji,
-cały ruch sieciowy pomiędzy przełącznikami, a kontorelerem przepływa przez
+cały ruch sieciowy pomiędzy przełącznikami, a kontrolerem przepływa przez
 komponent \textit{sdn\_epc}. Umożliwienie połączenia systemu Elixirowego z
 komponentami sieciowym, z wykorzystaniem \textit{OpenFlow} wymaga umiejętności
 obsługi tego protokołu przez aplikację \textit{sdn\_epc}. W tym celu
@@ -207,10 +206,9 @@ systemowych - wykonują się one na wszystkich procesorach (jeden proces na
 jednym procesorze w tym samym czasie), ale mają znacznie mniejszy narzut w
 kontekście zużycia zasobów systemowych niż tradycyjne procesy \cite{progelixir}.
 Wykorzystując koncepcję procesów, kod odpowiedzialny za obsługę przełączników
-podłączonych do aplikacji wykonuje się w osobnym procesie dla każdego z
-przełączników. Innym słowy, każdy przełącznik jest obsługiwany przez osobny,
-dedykowany dla niego proces, co umożliwa jednoczesną obsługę wielu
-przełączników.
+podłączonych do aplikacji wykonuje się w osobnym procesie dla każdego z nich.
+Innym słowy, każdy przełącznik jest obsługiwany przez osobny, dedykowany dla
+niego proces, co umożliwa jednoczesną obsługę wielu przełączników.
 
 Aplikacja \textit{sdn\_epc} może działać w klastrze, dzięki czemu możliwe jest
 zwiększenie jej wydajności. Do działania w klastrze aplikacja wykorzystuje
@@ -220,13 +218,22 @@ ten umożliwa komunikowanie się ze sobą wielu węzłów (Maszyn Wirtualnych
 Erlanga) \cite{erldocs}. Dzięki wspomnianej koncepcji procesów rozproszenie
 oprogramowania na wiele węzłów nie stanowi problemu, ponieważ z punktu widzenia
 Erlangowego systemu nie ma znaczenia, na którym węźle wykonuje się dany proces
-(procesy komunikują się w ten sam sposób, niezależnie od węzła na którym
-działają \cite{erldocs}). Jednkaże, w przypadku działania w aplikacji
+(procesy komunikują się w ten sam sposób niezależnie od węzła na którym
+działają \cite{erldocs}). Jednakże, w przypadku działania w aplikacji
 \textit{sdn\_epc} w klastrze, pojawił się problem z synchronizacją stanu (danych
 zapisywanych na potrzeby algorytmu do wykrywania ataku DDoS) pomiędzy węzłami.
 
-%OK jak działą, switch <-> sdn_Epc <-> ctrl, openflow
-%OK ze analizuje PACKET_IN
-%OK że jest switch per procs
-%OK że da się klastrować
-% że problem z synchronizacją stanu, mnesia
+Silna konsystencja (z ang. \textit{strong consistency}) w nomenklaturze systemów
+rozprosznych oznacza, że wszystkie węzły widzą dokładnie ten same dane w
+tym samym czasie \cite{distrforfunandprof}. Algorytm zaimplementowany w
+aplikacji \textit{sdn\_epc} wymaga takiego własnie poziomu konsystencji danych,
+ponieważ tylko jeden węzeł w tym samy czasie powinien wykryć atak i ewentulanie
+podjąć jakąś akcję. Baza danych \textit{Mnesia}, zastosowana na potrzeby
+algorytmu umożliwia takie jej wykorzystanie, które pozwala na osiągniecie silnej
+konsystencji danych. W tym celu wykorzystano koncepcję transakcji, które
+wprowadza \textit{Mnesia}. Transakcję odgrywają rolę globalnych \textit{mutex}'ów
+(z ang. mutual exclusion
+\footnote{https://en.wikipedia.org/wiki/Mutual\_exclusion}), zapobiegając
+równoczesnemu dostępowi różnych węzłów \textit{sdn\_epc} do danych. Zastosowanie
+transakcji umożliwiło poprawną implementację algortymu dla przypadku, gdy
+aplikacja \textit{sdn\_epc} działa w klastrze.
