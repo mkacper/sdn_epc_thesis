@@ -85,7 +85,7 @@ pozwala na łatwe oraz efektywne jego skalowanie, celem zwiększenia wydajności
 
 Technologiami, które spełniają wszystkie wyżej wymienione wytyczne są funkcyjne
 języki programowania Erlang oraz Elixir. Oba języki działają na Maszynie
-Wirtualnej Erlanga (BEAM). W rzeczywistości Elixir jest nowoczesną wersją
+Wirtualnej Erlanga (\textit{BEAM}). W rzeczywistości Elixir jest nowoczesną wersją
 Erlanga, dopasowaną do dzisiejszych standardów. Oferuje on szereg nowoczesnych,
 ułatwiających pracę programistyczną narzędzi, których Erlang nie posiada. W
 rzeczywistości Elixir jest Erlangową aplikacją działającą na Maszynie Wirtualnej
@@ -93,20 +93,20 @@ Erlanga \cite{thebeambook}.
 
 Maszyna Wirtualna Erlanga wprowadza model aktorów
 \footnote{https://en.wikipedia.org/wiki/Actor\_model}, dzięki czemu posiada
-natywne wsparcie dla programowania równoległego. Ponadto, BEAM zapewnia
+natywne wsparcie dla programowania równoległego. Ponadto, \textit{BEAM} zapewnia
 również wsparcie dla budowy systemów rozproszonych \cite{lyserlang}. Dzięki
 temu, języki Erlang oraz Elixir są odpowiednie do budowy wydajnych,
 niezawodnych, systemów rozproszonych. Z tych właśnie powodów, wspomniane
 technologie zostały wykorzystane do budowy projektu przedstawionego w niniejszej
 pracy.
 
-\section{Algorytm detekcji ataku DDoS}
+\section{Algorytm detekcji ataku DDoS} \label{algorithm}
 
 Alogrytm detekcji ataku, zaimplementowany na potrzeby opisywanego projektu
 bazuje na entropii pakietów przepływających przez sieć SDN. Entropia pakietów
 rozumiana jest jako ich losowość. Im większa entropia tym większa losowość
 pakietów i odwrotnie \cite{mainddosarticle}. Entropia jest wyliczana na postawie
-wzoru \ref{equ:entropy}.
+wzoru \ref{equ:entropy} \cite{mainddosarticle}.
 
 \begin{equation}
 H = -\sum_{i=1}^{n}p_{i}\log_{}p_{i}
@@ -135,7 +135,8 @@ docelowe pakietów \textit{IP} przepływających przez sieć, tj. zlicza ilość
 wystąpień każdego adresu docelowego zawartego w badanych pakietach \textit{IP}.
 Gdy ilość przeanalizwanych pakietów jest równa rozmiarowi okna obliczana jest 
 entropia. W tym celu wykorzystywane są równania: \ref{equ:entropy},
-\ref{equ:window} oraz \ref{equ:packet_prob}. 
+\ref{equ:window} \cite{mainddosarticle} oraz \ref{equ:packet_prob}
+\cite{mainddosarticle}.
 
 \begin{equation}
 W = \{(x_{1},y_{1}),(x_{2},y_{2}),(x_{3},y_{3}),...\}
@@ -152,14 +153,46 @@ oznacza dany docelowy adres \textit{IP}, a $y_{i}$ liczbę jego wystąpień w da
 oknie. Równanie \ref{equ:packet_prob} pozwala wyliczyć prawdopodobieństwo
 danego pakietu ($p_{i}$), gdzie $y_{i}$ oznacza liczbę wystąpień danego adresu
 \textit{IP}, a $n$ liczbę wszystkich pakietów w oknie ($W$).
-
 Jeśli obliczona wartość entropii dla określonej liczby okien z rzędu
 (rekomendowana liczba okien  wynosi 5 \cite{mainddosarticle}) jest mniejsza niż
 zadana wartość, uznaje się, że w sieci nastąpił atak. 
 
 \section{Aplikacja wykrywania ataku DDoS}
 
-% Jak działą, switch <-> sdn_Epc <-> ctrl, openflow
+Aplikacja \textit{sdn\_epc} \footnote{https://github.com/mkacper/sdn\_epc}
+(\textit{Software Defined Networking Elixir Pseudo Controller}) została w
+głównej mierze wykonana przy użyciu języka programowania Elixir, aczkolwiek
+wykorzstuje również kod napisany w Erlangu (głównie do interakcji z zewnętrznymi
+Erlangowymi bibliotekami). Użycie dwóch języków jednocześnie było możliwe,
+ponieważ, jak wspomniano we wcześniejszym rozdziale, oba te języki finalnie są
+kompilowne do tego samego kodu binarnego i wykonują się na tej samej maszynie
+wirtualnej (\textit{BEAM}). Ponadto, kompilator Elixira potrafi również
+kompilować kod Erlanga.
+
+Jak przedstawiono na Rys. \ref{fig:sdn_epc_flow} strona
+\pageref{fig:sdn_epc_flow} aplikacja \textit{sdn\_epc} została zaprogramowana
+jako osobny komponent, działający na osobnej maszynie, połączony bezpośrednio z
+przełącznikami oraz z kontrolerm sieci SDN. Komponenty te komunikują się ze
+sobą z wykorzystaniem protokołu \textit{OpenFlow}. W przedstawionej konfiguracji,
+cały ruch sieciowy pomiędzy przełącznikami, a kontorelerem przepływa przez
+komponent \textit{sdn\_epc}. Umożliwienie połączenia systemu Elixirowego z
+komponentami sieciowym, z wykorzystaniem \textit{OpenFlow} wymaga umiejętności
+obsługi tego protokołu przez aplikację \textit{sdn\_epc}. W tym celu
+wykorzystane zostały Erlangowe biblioteki \textit{of\_protocol}
+\footnote{https://github.com/FlowForwarding/of\_protocol} oraz
+\textit{ofs\_handler} \footnote{https://github.com/FlowForwarding/ofs\_handler}.
+
+Przepływający przez komponent \textit{sdn\_epc} ruch \textit{OpenFlow} jest
+analizowany na potrzeby algorytmu opisanego w rozdziale \ref{algorithm}.
+Analizowane są wiadomości \textit{PACKET\_IN} protokołu \textit{OpenFlow}, a
+konkretnie docelowe adresy pakietów \textit{IP} przesyłanych jako część
+wiadomości \textit{PACKET\_IN}. Wyniki zapisywane są w rozproszonej bazie danych
+(\textit{Mnesia}) \footnote{hhttp://erlang.org/doc/apps/mnesia/index.htm}
+dostarczanej razem ze standardową dystrybucją Erlanga. Następnie, zapisane
+wyniki wykorzystywane są do działania wspomnianego algorytmu.
+
+
+% jak działą, switch <-> sdn_Epc <-> ctrl, openflow
 % ze analizuje PACKET_IN
 % że jest switch per procs
 % że da się klastrować
