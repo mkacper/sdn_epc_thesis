@@ -1,1 +1,95 @@
-\chapter{Wybrane aspekty bezpieczeństwa w sieciach SDN}
+\chapter{Wybrane aspekty bezpieczeństwa w sieciach SDN }
+
+Ostatnimi czasy, sieci sterowane programowo (SDN) zdobywają popularność zarówno
+w środowiskach akademickich, jak również wśród komercyjnych przedsiębiorstw.
+Zcentralizowany model zarządzania siecią, jaki wprowadzono w sieciach SDN
+fundamentalnie zmienił spojrzenie na sposób zarządznia w sieciach rozproszonych
+\cite{ddosNYarticle}. Sieci SDN dostarczają nowych możliwości w zakresie
+monitorowania sieci, a co za tym idzie, wykrywania ataków sieciowych, m.in.
+ataków typu DDoS (z ang. \textit{distributed denial-of-service}). Niniejszy 
+rozdział przybliża ideę sieci SDN oraz wybrane sposoby wykrywania ataków DDoS.
+
+\section{Sieci sterowane programowo SDN}
+Sieci sterowane programowo (z ang. \textit{Software Defined Networking})
+wprowadzają rozdział warstwy danych od warstwy zarządzającej oraz wprowadzają
+centralny punkt zarządzania siecią, który jest w pełni programowalny \cite{onf}.
+Innymi słowy, możliwe jest zaprogramowanie konfiguracji sieci. Warstwa danych,
+jest odpowiedzialna tylko i wyłącznie za przełączanie danych, wedle reguł
+otrzymanych od warstwy zarządzającej. Do warstwy danych należą przełączniki SDN.
+Warstwa zarządzająca natomiast, jest odpowiedzialna za podejmowanie wszelkiego
+rodzaju decyzji związanych z działaniem sieci, np. określa jak powinny być
+przełączane/rutowane pakiety w sieci. Urządzeniem warstwy zarządzającej jest
+kontroler SDN. Kontroler komunikuje się z przełącznikami z wykorzystaniem tzw.
+połudiowego interfesju \cite{sdninterfaces}.
+
+Komunikacja pomiędzy przełącznikami, a kontrolerem w sieci SDN odbywa się z
+wykorzystaniem protokołu OpenFlow. Jest on obecnie szeroko stosowany w
+dzisiejszych sieciach SDN \cite{ddoskoreaarticle}. Przełącznik SDN przełącza
+pakiety zgodnie z tablicą przepływów (z ang. \textit{flow table}). Przepływ
+charakteryzuje pewną grupę podobnych pakietów, np. mających taki sam adres
+docelowy \textit{IP}. Każda reguła w tablicy przepływów określa jaką akcję
+przełącznik powinien podjąc w związku z danymi należącymi do danego
+przepływu, np. przełączyć je na port X. Tablica przepływów jest zarządzna przez
+kontroler sieci SDN.
+
+Przełącznik oraz kontroler komunikują się ze sobą z wykorzstaniem
+predefiniowanych wiadomości protokołu \textit{OpenFlow}. W przypadku, gdy
+przełącznik nie znajduje reguły w tablicy przepływów pasującej do ramki/pakietu,
+którą otrzymał, wysyła wiadomość \textit{PACKET\_IN} protokołu
+\textit{OpenFlow}, do kontrolera. Kontroler podejmuje decyzję co zrobić z danym 
+pakietem/ramką i przekazuje tę informację do przełącznika za pomocą wiadomości
+\textit{PACKET\_OUT}. Następnie instaluje nowy przepływ w tablicy przepływów
+przełącznika, aby mógł on przełączać podobne pakiety/ramki bez konieczności
+udziału kotrolera. W tym celu kontroler wysła do przełącznika wiadomość
+\textit{FLOW\_ADD}. Protokół \textit{OpenFlow} definiuje o wiele więcej
+wiadomości, jednakże nie ma konieczności ich omawiania na potrzeby niniejszej
+pracy inżynierskiej.
+
+\section{Bezpieczeństwo sieci SDN w kontekście ataku DDoS}
+
+Sieci SDN są nadal stosunkowo nową koncepcją, która nie jest jeszcze w
+powszechnym użyciu, ale wzraz ze wzrostem zaintersowania tą technologią oraz
+powszechności użycia, sieci SDN staną się w niedelakiej przyszłości celem ataków
+\cite{sdnsecurityblog}. W tym podrozdziale zostanie omówiona kwestia
+bezpieczeństwa sieci SDN w kontekście ataku DDoS.
+
+Atak DDoS jest rodzajem ataku sieciowego, w którym atakujący wykorzystuje wiele
+węzłów sieciowych np. zainfekowanych komputerów do wygenerowania ruchu
+sieciowego adresowanego do konkretnego węzła końcowego. W efekcie atakowany
+węzeł wykazuje większe latencje lub w ogóle przestaje odpowiadać na żądania,
+ponieważ jest całkowicie zaabsorbowany obsługą fałszywego ruchu.
+
+W przypadku sieci SDN, atak DDoS powoduje dodatkowe problemy w sieci. W
+niektórych pracach naukowych atak ten jest nazywany \textit{SDN-DDoS}
+\cite{ddosbronksarticle}: sieć SDN jest zalana ruchem, który nie należy do
+żadnego znanego przełącznikom w sieci przepływu (jest wręcz losowy). W takiej
+sytuacji, każdy przełącznik, który obsługuje fałszywy ruch wysyła wiadomości
+\textit{PACKET\_IN} do kontrolera w celu obsługi nieznanych (fałszywych)
+pakietów. Taka sytuacja powoduje szereg implikacji: prawdziwy ruch sieciowy jest
+obsługiwany wolniej lub w ogóle, ponieważ kontroler jest zajęty przetwarzaniem
+fałszywego ruchu. Ponadto, w przypadku ataku do kontrolera jest wysyłana duża
+liczba wiadomości \textit{PACKET\_IN}, co może doprowadzić do jego
+przeciążenia. W przypadku awarii kontrolera, cała sieć SDN przestaje być
+użyteczna \cite{mainddosarticle}. Z wyż. wym. powodów wczesne wykrycie ataku
+DDoS w sieciach SDN ma kluczowe znaczenie dla poprawnego działania całej sieci.
+
+\section{Metody wykrywania ataków DDoS w sieciach SDN}
+
+Ataki DDoS w kontekście sieci SDN budzą duże zaintersowanie w środowisku
+akademickim. Pojawiło się dość sporo artykułów naukowych prezentujących rozmiate
+metody wykrywania tego typu ataków. Opisane zostały zarówno bardzo podstawowe
+metody bazujące na entropii, jak również te bardziej zaawansowane. Na potrzeby
+niniejszej pracy przywołam i pokrótce opisze proponowane metody wykrywania
+ataków DDoS. 
+
+Jedna z metod wykrywania ataku DDoS przedstawiona w \cite{ddosNYarticle} opisuje
+sposób wykrywania ataku bazujący na monitorowaniu natężnia ruchu dla
+poszczególnych przepływów, a także ich asymetrii, tzn. monitorowania natężnia
+ruchu w obie strony: zarówno ruchu do potencjalnej ofiary, jak i od niej. Dzięki
+temu można odróznić naturalne przepływy o wysokim natężneiu np. transfer danych
+pomiędzy centrami danych od przepływów odpowiedzialnych za atak DDoS.
+Wykorzystanie wspomnianej metody opisano na dwa sposoby, jako \textit{Metodę
+Sekwencyjną} oraz \textit{Metodę Równoległą}.
+
+Kolejna metoda zaprezentowana w \cite{ddoskoreaarticle}
+
