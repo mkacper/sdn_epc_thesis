@@ -70,7 +70,7 @@ obsługiwany wolniej lub w ogóle, ponieważ kontroler jest zajęty przetwarzani
 fałszywego ruchu. Ponadto, w przypadku ataku do kontrolera jest wysyłana duża
 liczba wiadomości \textit{PACKET\_IN}, co może doprowadzić do jego
 przeciążenia. W przypadku awarii kontrolera, cała sieć SDN przestaje być
-użyteczna \cite{ddoskoreaarticle}. Z wyż. wym. powodów wczesne wykrycie ataku
+użyteczna \cite{mainddosarticle}. Z wyż. wym. powodów wczesne wykrycie ataku
 DDoS w sieciach SDN ma kluczowe znaczenie dla poprawnego działania całej sieci.
 
 \section{Metody wykrywania ataków DDoS w sieciach SDN}
@@ -87,24 +87,7 @@ sposób wykrywania ataku bazujący na monitorowaniu natężnia ruchu dla
 poszczególnych przepływów, a także ich asymetrii, tzn. monitorowania natężnia
 ruchu w obie strony: zarówno ruchu do potencjalnej ofiary, jak i od niej. Dzięki
 temu można odróznić naturalne przepływy o wysokim natężneiu np. transfer danych
-pomiędzy centrami danych od przepływów odpowiedzialnych za atak DDoS.
-Wykorzystanie wspomnianej metody opisano na dwa sposoby, jako \textit{Metodę
-Sekwencyjną} oraz \textit{Metodę Równoległą}.
+pomiędzy centrami danych od przepływów repreztujących atak DDoS. Wykorzystanie
+wspomnianej metody opisano na dwa sposoby, jako \textit{Metodę Sekwencyjną} oraz
+\textit{Metodę Równoległą}.
 
-Kolejna metoda zaprezentowana w \cite{ddoskoreaarticle} bazuje na czynnikach
-związanych z czasem. Badacze we wspomnianym artykule zaprojektowali metodę
-wykrywania ataku DDoS wykorzystującą ilość czasu jaki upłynął zanim ruch
-osiągnął pewien stopień natężenia, wzorce czasowe ataków DDoS oraz docelowe
-adresy pakietów w sieci. Wspomniana ilość czasu związana z natężeniem ruchu jest
-wykorzystywana do wykrycia ataku DDoS, natomiast wzorce czasowe mają zapobiegać
-atakom w przyszłości. Metody wykorzystujące długość ataku są rzadko stosowane
-\cite{ddoskoreaarticle}. 
-
-Metoda wykrywania ataków DDoS bazująca na entropii została opisana w
-\cite{mainddosarticle}. Entropia jest obliczana na podstawie docelowych adresów
-\textit{IP} poszczególnych pakietów w sieci. Jest ona obliczana dla zadanej
-długości okna, które składa się z ustalonej liczby pakietów. Gdy obliczna
-entropia spadnie poniżej zadanego poziomu dla kilku następujących po sobie okien
-uznaje się, że w sieci nastąpił atak. Algorytm ten został zaimplementowany w
-projekcie wykonanym na potrzeby niniejszej pracy inżynierskiej. Został on
-szczególowo opisany w rozdziale \ref{algorithm} strona \pageref{algorithm}.
