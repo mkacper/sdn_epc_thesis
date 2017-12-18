@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt,twoside,openany,titlepage]{book}
+\documentclass[a4paper,12pt,twoside,openany,notitlepage]{book}
 \usepackage{amssymb}
 \usepackage[utf8]{inputenc}
 \usepackage{polski}
@@ -11,16 +11,24 @@
 \usepackage{tabu}
 \usepackage{pgfplots}
 \usepackage[nottoc]{tocbibind}
+\usepackage{fancyhdr}
 
-\pagestyle{headings}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\leftmark}
+\fancyhead[RE,LO]{\thepage}
 
 \begin{document}
+
+\include{empty_page}
 
 \include{title_page_front}
 
 \include{title_page_back}
 
+\setcounter{page}{0}
 \tableofcontents
+\thispagestyle{empty}
 
 \include{chapters/1.wstep}
 
