@@ -2,12 +2,13 @@
 
 Ostatnimi czasy, sieci sterowane programowo (SDN) zdobywają popularność zarówno
 w środowiskach akademickich, jak również wśród komercyjnych przedsiębiorstw.
-Zcentralizowany model zarządzania siecią, jaki wprowadzono w sieciach SDN
+Zcentralizowany model zarządzania siecią, jaki wprowadzono w architekturze SDN
 fundamentalnie zmienił spojrzenie na sposób zarządznia w sieciach rozproszonych
 \cite{ddosNYarticle}. Sieci SDN dostarczają nowych możliwości w zakresie
-monitorowania sieci, a co za tym idzie, wykrywania ataków sieciowych, m.in.
-ataków typu DDoS (z ang. \textit{distributed denial-of-service}). Niniejszy 
-rozdział przybliża ideę sieci SDN oraz wybrane sposoby wykrywania ataków DDoS.
+monitorowania sieci, a co za tym idzie, również w zakresie wykrywania ataków
+sieciowych, m.in. ataków typu DDoS (z ang. \textit{distributed
+  denial-of-service}). Niniejszy rozdział przybliża ideę sieci SDN oraz wybrane
+sposoby wykrywania ataków DDoS. 
 
 \section{Sieci sterowane programowo SDN}
 Sieci sterowane programowo (z ang. \textit{Software Defined Networking})
@@ -23,7 +24,7 @@ kontroler SDN. Kontroler komunikuje się z przełącznikami z wykorzystaniem tzw
 połudiowego interfesju \cite{sdninterfaces}.
 
 Komunikacja pomiędzy przełącznikami, a kontrolerem w sieci SDN odbywa się z
-wykorzystaniem protokołu OpenFlow. Jest on obecnie szeroko stosowany w
+wykorzystaniem protokołu \textit{OpenFlow}. Jest on obecnie szeroko stosowany w
 dzisiejszych sieciach SDN \cite{ddoskoreaarticle}. Przełącznik SDN przełącza
 pakiety zgodnie z tablicą przepływów (z ang. \textit{flow table}). Przepływ
 charakteryzuje pewną grupę podobnych pakietów, np. mających taki sam adres
@@ -67,11 +68,11 @@ sytuacji, każdy przełącznik, który obsługuje fałszywy ruch wysyła wiadomo
 \textit{PACKET\_IN} do kontrolera w celu obsługi nieznanych (fałszywych)
 pakietów. Taka sytuacja powoduje szereg implikacji: prawdziwy ruch sieciowy jest
 obsługiwany wolniej lub w ogóle, ponieważ kontroler jest zajęty przetwarzaniem
-fałszywego ruchu. Ponadto, w przypadku ataku do kontrolera jest wysyłana duża
-liczba wiadomości \textit{PACKET\_IN}, co może doprowadzić do jego
-przeciążenia. W przypadku awarii kontrolera, cała sieć SDN przestaje być
-użyteczna \cite{ddoskoreaarticle}. Z wyż. wym. powodów wczesne wykrycie ataku
-DDoS w sieciach SDN ma kluczowe znaczenie dla poprawnego działania całej sieci.
+fałszywego ruchu \cite{indiaarticle}. Ponadto, do kontrolera jest wysyłana duża
+liczba wiadomości \textit{PACKET\_IN}, co może doprowadzić do jego przeciążenia.
+W przypadku awarii kontrolera cała sieć SDN przestaje być użyteczna
+\cite{ddoskoreaarticle}. Z wyż. wym. powodów wczesne wykrycie ataku DDoS w
+sieciach SDN ma kluczowe znaczenie dla poprawnego działania całej sieci. 
 
 \section{Metody wykrywania ataków DDoS w sieciach SDN}
 
@@ -79,17 +80,17 @@ Ataki DDoS w kontekście sieci SDN budzą duże zaintersowanie w środowisku
 akademickim. Pojawiło się dość sporo artykułów naukowych prezentujących rozmiate
 metody wykrywania tego typu ataków. Opisane zostały zarówno bardzo podstawowe
 metody bazujące na entropii, jak również te bardziej zaawansowane. Na potrzeby
-niniejszej pracy przywołam i pokrótce opisze proponowane metody wykrywania
+niniejszej pracy przywołano i pokrótce opisano wybrane metody wykrywania
 ataków DDoS. 
 
-Jedna z metod wykrywania ataku DDoS przedstawiona w \cite{ddosNYarticle} opisuje
-sposób wykrywania ataku bazujący na monitorowaniu natężnia ruchu dla
-poszczególnych przepływów, a także ich asymetrii, tzn. monitorowania natężnia
-ruchu w obie strony: zarówno ruchu do potencjalnej ofiary, jak i od niej. Dzięki
-temu można odróznić naturalne przepływy o wysokim natężneiu np. transfer danych
+Jedna z metod przedstawiona w \cite{ddosNYarticle} opisuje sposób wykrywania
+ataku bazujący na monitorowaniu natężnia ruchu dla poszczególnych przepływów, a
+także ich asymetrii, tzn. monitorowania natężnia ruchu w obie strony: zarówno
+ruchu do potencjalnej ofiary, jak i od niej. Dzięki takiemu podejściu możliwe
+jest odróżnienie naturalnych przepływów o wysokim natężneiu np. transfer danych
 pomiędzy centrami danych od przepływów odpowiedzialnych za atak DDoS.
 Wykorzystanie wspomnianej metody opisano na dwa sposoby, jako \textit{Metodę
-Sekwencyjną} oraz \textit{Metodę Równoległą}.
+  Sekwencyjną} oraz \textit{Metodę Równoległą}. 
 
 Kolejna metoda zaprezentowana w \cite{ddoskoreaarticle} bazuje na czynnikach
 związanych z czasem. Badacze we wspomnianym artykule zaprojektowali metodę
@@ -97,8 +98,8 @@ wykrywania ataku DDoS wykorzystującą ilość czasu jaki upłynął zanim ruch
 osiągnął pewien stopień natężenia, wzorce czasowe ataków DDoS oraz docelowe
 adresy pakietów w sieci. Wspomniana ilość czasu związana z natężeniem ruchu jest
 wykorzystywana do wykrycia ataku DDoS, natomiast wzorce czasowe mają zapobiegać
-atakom w przyszłości. Metody wykorzystujące długość ataku są rzadko stosowane
-\cite{ddoskoreaarticle}. 
+atakom w przyszłości. Metody wykorzystujące informację o długości trwania ataku
+są rzadko stosowane \cite{ddoskoreaarticle}. 
 
 Metoda wykrywania ataków DDoS bazująca na entropii została opisana w
 \cite{mainddosarticle}. Entropia jest obliczana na podstawie docelowych adresów
@@ -108,3 +109,17 @@ entropia spadnie poniżej zadanego poziomu dla kilku następujących po sobie ok
 uznaje się, że w sieci nastąpił atak. Algorytm ten został zaimplementowany w
 projekcie wykonanym na potrzeby niniejszej pracy inżynierskiej. Został on
 szczególowo opisany w rozdziale \ref{algorithm} strona \pageref{algorithm}.
+
+System wykrywania ataków DDoS opisany w \cite{bloomarticle} jest w stanie wykryć
+typ ataków skierowanych na poszczególne łącze w sieci. Tego typu atak ma na celu
+wysycenie konkretnego łącza. Proponowane rozwiązanie bazuje na analizie tablic
+przepływów oraz pakietów w sieci SDN. Opisywany system składa się z dwóch
+elementów: \textit{Collector}'a oraz \textit{Detector}'a. \textit{Collector} ma
+za zadanie skanować tablice przepływów w sieci w celu znalezienia podejrzanych
+przepływów (odpowiedzialnych za wysycenia łącza). Podejrzane przepływy są
+zapisywane w specjalnej strukturze danych, na potrzeby której wykorzystano Filtr
+Blooma \footnote{https://en.wikipedia.org/wiki/Bloom\_filter}.
+Odpowiedzialnością \textit{Detecor}'a jest skanowanie sieci w celu pozyskania
+pakietów do analizy. Następnie komponent sprawdza, czy dany pakiet należy do
+któregoś z podejrzanych przepłyów i wysyła odpowiednie powiadomienie do
+kontrolera SDN.

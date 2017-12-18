@@ -27,11 +27,10 @@ ninejszej pracy.
 Oprogramowanie zaimplementowano z myślą o działaniu na osobnym węźle,
 ponieważ dzięki takiemu podejściu, w przypadku równoległego działania
 oprogramowania, liczba jego instancji jest niezależna od liczby przełączników
-lub kontrolerów. Dzięki temu, możliwe jest bardziej elastyczne skalowanie
-horyzontalne oprogramowania w celu zwiększenia jego wydajności. Ponadto zarówno
-przełączniki jak i kontroler nie są świadome obecności dodatkowego komponentu
-pomiędzy nimi, co pozwala uniknąć dodatkowego narzutu związanego z konfiguracją
-sieci SDN. 
+lub kontrolerów. Pozwala to na bardziej elastyczne skalowanie horyzontalne
+oprogramowania w celu zwiększenia jego wydajności. Ponadto zarówno przełączniki
+jak i kontroler nie są świadome obecności dodatkowego komponentu pomiędzy nimi,
+co pozwala uniknąć dodatkowego narzutu związanego z konfiguracją sieci SDN.
 
 Podstawowa topologia sieci SDN wraz z umiejscowionym komponentem reprezentującym
 zaimplementowane oprogramowanie (\textit{sample component}) została
@@ -70,7 +69,7 @@ obliczeniowych \cite{distrforfunandprof}. Na potrzeby projektu, odpowiedni
 poziom wydajności został zapewniony dzięki doborze techologi, które wspierają
 koncepcję programowania współbieżnego, czyli możliwość wykonywania się
 oprogramowania z wykorzytaniem wielu wątków fizycznych procesora maszyny, na
-której zostało ono uruchomione. Ponadto, przy wyborze technologi, kierowano się
+której zostało ono uruchomione. Ponadto przy wyborze technologi, kierowano się
 również natywnym wsparciem dla możliwosći dystrybucji oprogramowania na wiele
 maszyn fizycznych, czyli, innymi słowy, wsparciem dla budowania systemów
 rozproszonych. Możliwość rozbudowy systemu z wykorzystaniem wielu maszyn jest
@@ -80,7 +79,7 @@ pewnym momencie koniecznym jest budowa systemu rozproszonego
 \cite{distrforfunandprof}. 
 
 Wykorzystanie technolgii, która umożliwa programowanie współbieżne oraz wspiera
-budowę systemów rozporosznych, umożliwiło taką implementację projeku, która
+budowę systemów rozproszonych, umożliwiło taką implementację projeku, która
 pozwala na łatwe oraz efektywne jego skalowanie, celem zwiększenia wydajności.
 
 Technologiami, które spełniają wszystkie wyżej wymienione wytyczne są funkcyjne
@@ -93,7 +92,7 @@ Erlanga \cite{thebeambook}.
 
 Maszyna Wirtualna Erlanga wprowadza model aktorów
 \footnote{https://en.wikipedia.org/wiki/Actor\_model}, dzięki czemu posiada
-natywne wsparcie dla programowania równoległego. Ponadto, \textit{BEAM} zapewnia
+natywne wsparcie dla programowania równoległego. Ponadto \textit{BEAM} zapewnia
 również wsparcie dla budowy systemów rozproszonych \cite{lyserlang}. Dzięki
 temu, języki Erlang oraz Elixir są odpowiednie do budowy wydajnych,
 niezawodnych, systemów rozproszonych. Z tych właśnie powodów, wspomniane
@@ -163,9 +162,9 @@ Aplikacja \textit{sdn\_epc} \footnote{https://github.com/mkacper/sdn\_epc}
 głównej mierze wykonana przy użyciu języka programowania Elixir, aczkolwiek
 wykorzystuje również kod napisany w Erlangu (głównie do interakcji z
 zewnętrznymi Erlangowymi bibliotekami). Użycie dwóch języków jednocześnie było
-możliwe, ponieważ, jak wspomniano we wcześniejszym rozdziale, oba te języki
+możliwe ponieważ, jak wspomniano we wcześniejszym rozdziale, oba te języki
 finalnie są kompilowne do tego samego kodu binarnego i wykonują się na tej samej
-maszynie wirtualnej (\textit{BEAM}). Ponadto, kompilator Elixira potrafi również 
+maszynie wirtualnej (\textit{BEAM}). Ponadto kompilator Elixira potrafi również 
 kompilować kod Erlanga.
 
 \subsection{Zasada działania aplikacji}
@@ -189,7 +188,7 @@ Analizowane są wiadomości \textit{PACKET\_IN} protokołu \textit{OpenFlow}, a
 konkretnie docelowe adresy pakietów \textit{IP} przesyłanych jako część
 wiadomości \textit{PACKET\_IN}. Wyniki zapisywane są w rozproszonej bazie danych
 (\textit{Mnesia}) \footnote{hhttp://erlang.org/doc/apps/mnesia/index.htm}
-dostarczanej razem ze standardową dystrybucją Erlanga. Następnie, zapisane
+dostarczanej razem ze standardową dystrybucją Erlanga. Następnie zapisane
 wyniki wykorzystywane są do działania wspomnianego algorytmu.
 
 \subsection{Wydajność aplikacji}
@@ -217,9 +216,9 @@ wbudowany w \textit{BEAM}'a mechanizm zwany \textit{Erlang Distributed}
 ten umożliwa komunikowanie się ze sobą wielu węzłów (Maszyn Wirtualnych
 Erlanga) \cite{erldocs}. Dzięki wspomnianej koncepcji procesów rozproszenie
 oprogramowania na wiele węzłów nie stanowi problemu, ponieważ z punktu widzenia
-Erlangowego systemu nie ma znaczenia, na którym węźle wykonuje się dany proces
+Erlangowego systemu nie ma znaczenia na którym węźle wykonuje się dany proces
 (procesy komunikują się w ten sam sposób niezależnie od węzła na którym
-działają \cite{erldocs}). Jednakże, w przypadku działania w aplikacji
+działają \cite{erldocs}). Jednakże w przypadku działania w aplikacji
 \textit{sdn\_epc} w klastrze, pojawił się problem z synchronizacją stanu (danych
 zapisywanych na potrzeby algorytmu do wykrywania ataku DDoS) pomiędzy węzłami.
 
@@ -232,7 +231,7 @@ podjąć jakąś akcję. Baza danych \textit{Mnesia}, zastosowana na potrzeby
 algorytmu umożliwia takie jej wykorzystanie, które pozwala na osiągniecie silnej
 konsystencji danych. W tym celu wykorzystano koncepcję transakcji, które
 wprowadza \textit{Mnesia}. Transakcję odgrywają rolę globalnych \textit{mutex}'ów
-(z ang. mutual exclusion
+(z ang. \textit{mutual exclusion}
 \footnote{https://en.wikipedia.org/wiki/Mutual\_exclusion}), zapobiegając
 równoczesnemu dostępowi różnych węzłów \textit{sdn\_epc} do danych. Zastosowanie
 transakcji umożliwiło poprawną implementację algortymu dla przypadku, gdy
