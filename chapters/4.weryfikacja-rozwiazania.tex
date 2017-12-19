@@ -6,8 +6,8 @@ podstawowych założeń projektowych tj. poprawności wykrywania anomali związa
 z natężeniem ruchu w obsługiwanej sieci oraz możliwości skalowania
 aplikacji \textit{sdn\_epc} w celu zwiększenia wydajności systemu.
 Przeprowadzenie testów wymagało przygotowania odpowiednich scenariuszy testowych,
-zestawienia dedykowanych topolgi sieciowych oraz stworzenia rozwiązań
-pozwalających na zebranie własciwych danych z testowanego systemu. Analiza
+zestawienia dedykowanych topologii sieciowych oraz stworzenia rozwiązań
+pozwalających na zebranie właściwych danych z testowanego systemu. Analiza
 tychże wyników pozwoliła na stwierdzenie, czy i w jakim stopniu założenia
 projektowe zostały spełnione. Niniejszy rozdział szczegółowo opisuje
 poszczególne przypadki testowe oraz prezentuje analizę uzyskanych wyników.
@@ -19,8 +19,8 @@ Aby stwierdzić, czy zaimplementowany algorytm (rozdział \ref{algorithm} strona
 pozwala wykryć atak DDoS w sieci SDN zostały przeanalizowane wartości entropii
 obliczone za pomocą tegoż właśnie algorytmu w dwóch różnych przypadkach
 testowych, z których każdy wykorzystywał nieco inną konfigurację testową
-topologi sieciowej, jak również samej aplikacji \textit{sdn\_epc}. Przetestowane
-zostały przypadki, gdy:  
+topologii sieciowej, jak również samej aplikacji \textit{sdn\_epc}.
+Przetestowane zostały przypadki, gdy:
 \begin{enumerate}
   \item Ruch wygenerowany w sieci testowej był obsługiwany tylko przez jeden
     węzeł aplikacji \textit{sdn\_epc}.
@@ -38,7 +38,7 @@ dodatkowe komplikacje, związane z synchronizacją stanu pomiędzy węzłami.
   \textit{sdn\_epc}} \label{entropy_one_node}
 
 Schemat topologii sieciowej wykorzystanej w przypadku, gdy tylko jeden węzeł
-aplikacji jest zaangażowany w przetwarzenie ruchu został przedstawiony na
+aplikacji jest zaangażowany w przetwarzanie ruchu został przedstawiony na
 Rys. \ref{fig:entropia_scheme}.
 
 \begin{figure}[h]
@@ -58,12 +58,12 @@ protokołu \textit{OpenFlow}, wymieniane pomiędzy poszczególnymi przełącznik
 a kontrolerem, w celu obliczenia entropii pakietów przesyłanych w sieci.
 
 Jeśli algorytm został poprawnie zaimplementowany to wartość entropii,
-obliczonej za jego pomocą, powinna maleć wzraz ze spadkiem losowości pakietów
+obliczonej za jego pomocą, powinna maleć wraz ze spadkiem losowości pakietów
 przesyłanych w sieci testowej. Innymi słowy, im więcej pakietów w sieci jest
 adresowanych do jednego, konkretnego węzła końcowego, tym mniejsza będzie wartość
 obliczonej entropii.
 
-W celu sprawdzenia czy wspomiana zależność została spełniona, koniecznym było
+W celu sprawdzenia czy wspomniana zależność została spełniona, koniecznym było
 zaprojektowanie odpowiedniego scenariusza testowego. Scenariusz ten opierał się
 na środowisku testowym przedstawionym na Rys. \ref{fig:entropia_tech}.
 
@@ -75,7 +75,7 @@ na środowisku testowym przedstawionym na Rys. \ref{fig:entropia_tech}.
 \label{fig:entropia_tech}
 \end{figure}
 
-Jak przedstawiono na Rys. \ref{fig:entropia_tech} toplogia sieciowa została
+Jak przedstawiono na Rys. \ref{fig:entropia_tech} topologia sieciowa została
 zestawiona z użyciem dwóch maszyn fizycznych, na których zostały zwirtualizowane
 niezbędne komponenty testowe. Każdy z komponentów, za wyjątkiem przełącznika
 sieci \textit{LAN} (\textit{switch}), został uruchomiony na dedykowanej maszynie
@@ -95,7 +95,7 @@ korzystał z oprogramowania zbudowanego z wykrzystaniem framework'a
 dla \textit{sdn\_epc} i \textit{SDN controller} działały pod kontrolą systemu
 operacyjnego \textit{Ubuntu \footnote{https://www.ubuntu.com}}.
 
-W celu poprawnego działania algorymu musi zostać spełnione założenie: dla
+W celu poprawnego działania algorytmu musi zostać spełnione założenie: dla
 każdego nowego połączenia (adres źródłowy/docelowy, port źródłowy/docelowy oraz
 protokół; na potrzeby ninejszej pracy wykorzystano tylko adres
 docelowy/źródłowy) kontroler sieci SDN instaluje nowy przepływ w przełączniku
@@ -103,7 +103,7 @@ sieci SDN \cite{mainddosarticle}. Przy takim założeniu, każde nowe połączen
 sieci wygeneruje wiadomość \textit{PACKET\_IN}, która następnie zostanie
 przeanalizowana przez węzeł \textit{sdn\_epc}. Aby spełnić to założenie należało
 zmodyfikować logikę przełącznika zaimplementowaną w kontrolerze. Modyfikacja
-wymagała przeprogramowania \textit{Python}'owego skrytpu odpowiedzialnego za
+wymagała przeprogramowania \textit{Python}'owego skryptu odpowiedzialnego za
 implementację logiki przełącznika w oprogramowaniu kontrolera \cite{ryupage}.
 
 Scenariusz testowy zakładał przeprowadzenie kilku prób, podczas których w sieci
@@ -157,7 +157,7 @@ Warto zaznaczyć, że średnio 3,4\% wszystkich pakietów z danej próby nie dot
 do aplikacji \textit{sdn\_epc}. Wydaje się, że nie powinno wpłynąć to znacząco
 na uzyskane wyniki, jednak ze względu na fakt, że przeprowadzenie tego typu
 testów wymaga znacznych zasobów obliczeniowych, do których dostęp nie jest
-ogólnodostępny, wpływ wspomianego zjawiska nie został naukowo zbadany w
+ogólnodostępny, wpływ wspomnianego zjawiska nie został naukowo zbadany w
 niniejszej pracy.
 
 Na wykresie \ref{plot:entropy} przedstawiono średnią wartość entropii,
@@ -169,7 +169,7 @@ niej algorytmu, dla poszczególnych prób testowych.
 \begin{tikzpicture}
 \begin{axis}[
     xlabel={Siła ataku [\%]},
-    ylabel={Średnia wartośc entropii},
+    ylabel={Średnia wartość entropii},
     xmin=0, xmax=100,
     ymin=0.7, ymax=1.2,
     xtick={0,20,40,60,80,100},
@@ -196,15 +196,15 @@ niej algorytmu, dla poszczególnych prób testowych.
 \newpage
 
 Zależność entropii od siły ataku, przedstawiona na wykresie \ref{plot:entropy},
-jest taka, jak przewidywano. Wzraz ze wzrostem siły ataku wartość entropii
+jest taka, jak przewidywano. Wraz ze wzrostem siły ataku wartość entropii
 maleje, ponieważ im większa siła ataku, tym większy procent wszystkich pakietów
 w sieci trafia do jednego, atakowanego, węzła końcowego. W związku z tym,
 losowość poszczególnych pakietów spada, tym samym powodując spadek entropii
 pakietów w sieci.
 
-Bazując na przestawionych wynikach i ich analizie, można stwiedzić, że alogorytm
-służacy do wykrywania ataku DDoS, został poprawnie zaimplementowany w aplikacji
-\textit{sdn\_epc} i umożliwa wykrycie tego typu anomali. 
+Bazując na przestawionych wynikach i ich analizie, można stwierdzić, że algorytm
+służący do wykrywania ataku DDoS, został poprawnie zaimplementowany w aplikacji
+\textit{sdn\_epc} i umożliwia wykrycie tego typu anomali. 
 
 \subsection{Przypadek testowy z wykorzystaniem kilku węzłów aplikacji
   \textit{sdn\_epc} działających w klastrze} \label{entropy_multi_node}
@@ -227,14 +227,14 @@ podobna do przedstawionej na Rys. \ref{fig:entropia_scheme} na stronie
 \pageref{fig:entropia_scheme}. W tym przypadku każdy przełącznik w sieci
 komunikuje się z kontrolerem poprzez dedykowany węzeł aplikacji
 \textit{sdn\_epc}, a więc w klastrze działa dokładnie tyle węzłów
-\textit{sdn\_epc} ile jest przełączników w sieci. Każdy węzeł aplikacji obsłguje
-tylko jeden przełącznik. Najważniejszą różnicą, względem przypadku, gdy tylko
-jeden węzeł aplikacji obsługuje wszystkie przełączniki w sieci, jest 
+\textit{sdn\_epc} ile jest przełączników w sieci. Każdy węzeł aplikacji
+obsługuje tylko jeden przełącznik. Najważniejszą różnicą, względem przypadku,
+gdy tylko jeden węzeł aplikacji obsługuje wszystkie przełączniki w sieci, jest
 rozproszenie procesu obliczania entropii na wiele węzłów \textit{sdn\_epc}.
 
-W związku z tym, że rozposzenie procesu obliczania entropii na wiele węzłów,
-wprowadziło szereg komplikacji, które należło uwzględnić, aby poprawnie ją
-obliczyć, zostały przeprowadzene dokładnie takie same próby testowe, jak opisano
+W związku z tym, że rozproszenie procesu obliczania entropii na wiele węzłów,
+wprowadziło szereg komplikacji, które należało uwzględnić, aby poprawnie ją
+obliczyć, zostały przeprowadzone dokładnie takie same próby testowe, jak opisano
 w sekcji \ref{entropy_one_node} ale z wykorzystaniem innej topologii testowej.
 Przeprowadzenie bliźniaczych prób pozwoliło porównać wyniki, tj. wartości
 entropii, w przypadku obliczania jej z użyciem jednego (patrz wykres
@@ -244,7 +244,7 @@ algorytm działa poprawnie również w przypadku rozproszenia procesu obliczania
 entropii.
 
 Środowisko przygotowane na potrzeby przeprowadzenia prób testowych, z
-wykorzystaniem kilku węzłow \textit{sdn\_epc} przedstawiono na Rys.
+wykorzystaniem kilku węzłów \textit{sdn\_epc} przedstawiono na Rys.
 \ref{fig:entropy_multi_tech}.
 
 \begin{figure}[h]
@@ -265,7 +265,7 @@ aplikacji \textit{sdn\_epc} przeprowadzono takie same próby testowe jak opisano
 w Tab. \ref{tab:entropy} strona \pageref{tab:entropy}. Uzyskane wyniki zostały
 przedstawione na wykresie \ref{plot:entropy_multi_node} wraz z wynikami
 pozyskanymi podczas prób z wykorzystaniem jednego węzła \textit{sdn\_epc}, aby
-umożliwić porównanie wyników otrzymanych z użyciem dwóch różnych topolgii
+umożliwić porównanie wyników otrzymanych z użyciem dwóch różnych topologii
 sieciowych.
 
 \begin{figure}[h]
@@ -273,7 +273,7 @@ sieciowych.
 \begin{tikzpicture}
 \begin{axis}[
     xlabel={Siła ataku [\%]},
-    ylabel={Średnia wartośc entropii},
+    ylabel={Średnia wartość entropii},
     xmin=0, xmax=100,
     ymin=0.7, ymax=1.2,
     xtick={0,20,40,60,80,100},
@@ -318,7 +318,7 @@ docelowych dla pakietów \textit{IP} użytych do generowania ruchu podczas prób
 testowych. Ze względu na ograniczenia techniczne, związane z dostępem do zasobów
 obliczeniowych niezbędnych do przeprowadzenia testów, zjawiska te nie zostały
 naukowo zbadane w niniejszej pracy. Jednakże różnice w wynikach są  na tyle
-małe, że można uznać, iż zaimplementowany algorytm, służacy do wykrywania ataku
+małe, że można uznać, iż zaimplementowany algorytm, służący do wykrywania ataku
 DDoS, działa poprawnie zarówno w systemie rozproszonym jak i z wykorzystaniem
 jednego węzła \textit{sdn\_epc}.
 
@@ -422,7 +422,7 @@ nodes near coords, nodes near coords align={horizontal},
 Na Rys. \ref{plot:cpu_usage} wyraźnie widać, że dla przypadku testowego, gdy
 wygenerowany ruch sieciowy był obsługiwany przez 3 węzły \textit{sdn\_epc}
 zużycie zasobów znacząco zmalało, względem próby, podczas której cały ruch
-siecowy obsługiwał tylko jeden węzeł \textit{sdn\_epc}. Zużycie zasobów nie
+sieciowy obsługiwał tylko jeden węzeł \textit{sdn\_epc}. Zużycie zasobów nie
 zmalało dokładnie 3-krotnie, ponieważ działanie w aplikacji w klastrze wprowadza
 dodatkowy narzut związany m.in. z rywalizacją węzłów o dostęp do stanu, który
 jest niezbędny do ich poprawnego działania. Podsumowując wykres
