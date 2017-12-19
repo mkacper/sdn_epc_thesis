@@ -3,30 +3,32 @@
 Na potrzeby niniejszej pracy inżynierskiej wykonano, wdrożono i przetestowano
 system wczesnego wykrywania ataków DDoS w sieciach sterowanych programowo SDN.
 Stworzony system spełnia wszystkie założenia projektowe tj. poprawnie wykrywa
-atak DDoS w sieci SDN oraz umożliwia skalowanie celem zwiększenia wydajności.
+atak DDoS w sieci SDN oraz jest możliwe jego skalowanie celem zwiększenia
+wydajności.
 
-W celu umożliwienia wykrywania ataku DDoS został zaimplementowany algorytm
-bazujący na etropii (losowości) pakietów w sieci. Na potrzeby algorytmu
-aplikacja \textit{sdn\_epc} analizuje wiadomości \textit{PACKET\_IN} protokołu
-\textit{OpenFlow}. Wyniki analizy zapisywane są w rozproszonej Erlangowej bazie
-danych \textit{Mnesia}. Dzięki temu proces obliczania algortymu może zostać
-rozproszony na wiele węzłów aplikacji.
+Funkcjonalność wykrywania ataku DDoS została zaimplementowana z wykorzystaniem
+algorytmu bazującego na entropii (losowości) pakietów w sieci. Na potrzeby
+wspomnianego algorytmu aplikacja \textit{sdn\_epc} analizuje wiadomości
+\mbox{\textit{PACKET\_IN}} protokołu \textit{OpenFlow}. Wyniki analizy
+zapisywane są w rozproszonej Erlangowej bazie danych \textit{Mnesia}. Dzięki
+temu proces obliczania algorytmu może zostać rozproszony na wiele węzłów
+aplikacji.
 
 Implementacja aplikacji \textit{sdn\_epc} umożliwia działanie kilku instancji
-oprogramowania jednocześnie (w klastrze). Dzięki temu możliwe jest skalowanie
-aplikacji poprzez dodawanie kolejnych węzłów do klastra. Wydajnośc całego
-systemu została zwiększona również dzięki odpowiedniej architekturze aplikacji
-wykorzystującej programowanie równoległe.
+oprogramowania jednocześnie (w klastrze). Pozwala to na skalowanie aplikacji
+poprzez dodawanie kolejnych węzłów do klastra. Wydajność całego systemu została
+zwiększona również dzięki odpowiedniej architekturze aplikacji wykorzystującej
+programowanie równoległe.
 
-Wdrożenie wspomianych rozwiązań było możliwe dzięki wykorzystaniu odpowiednich
+Wdrożenie wspomnianych rozwiązań było możliwe dzięki zastosowaniu odpowiednich
 technologii, które natywnie wspierają budowę systemów rozproszonych oraz
-programowanie równoległe, takich jak funkcyjne języki programowania Erlang oraz
+koncepcję programowania równoległego, takich jak funkcyjne języki programowania Erlang oraz
 Elixir. Języki te działają na Maszynie Wirtualnej Erlanga, która dostarcza
-wspomnianych funkcjonalności.
+wyż. wym. funkcjonalności.
 
 Założenia projektowe zostały sprawdzone empirycznie. Przeprowadzono serie
-testów, które jedoznacznie potwierdziły, że wykonany system poprawnie wykrywa
+testów, które jednoznacznie potwierdziły, że wykonany system poprawnie wykrywa
 ataki DDoS działając zarówno jako pojedynczy węzeł aplikacji \textit{sdn\_epc},
-jak i w klastrze. Ponadto wykonane testy dowiodły, że wspomiany system można
+jak i w klastrze. Ponadto wykonane testy dowiodły, że opracowany system można
 skalować horyzontalnie poprzez działanie aplikacji \textit{sdn\_epc} w klastrze,
-co znacząco zwiększa wydjanośc całego systemu.
+co znacząco zwiększa wydajność całego systemu.
