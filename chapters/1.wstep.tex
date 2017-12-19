@@ -9,17 +9,17 @@ systemu celem zwiększenia jego wydajności.
 Architektura systemu zaprojektowanego na potrzeby niniejszej pracy zakłada
 umieszczenie stworzonego oprogramowania na południowym interfejsie sieci SDN
 jako osobny jej komponent oraz, że cały ruch pomiędzy przełącznikami SDN, a
-kontrolerem SDN będzie przechodził przez wspomiany komponent. Takie podejście
+kontrolerem SDN będzie przechodził przez wspomniany komponent. Takie podejście
 umożliwia umieszczenie oprogramowania na osobnej maszynie, co z kolei daje
 możliwość skalowania systemu poprzez budowanie klastra złożonego z wielu
 instancji komponentu, a także ułatwia konfigurację sieci (nie ma potrzeby
 ingerencji w inne urządzenia sieciowe). Ponadto umiejscowienie oprogramowania
-pomiędzy przełącznikami, a kontrolerem umożliwa analizowanie wiadomości
+pomiędzy przełącznikami, a kontrolerem umożliwia analizowanie wiadomości
 protokołu \textit{OpenFlow} wymienianych pomiędzy tymi urządzeniami. Analiza
 tychże wiadomości jest wykorzystywana przez zaimplementowany algorytm wykrywania
 ataku DDoS.
 
-Algorytm służący do wykrywania ataku DDoS zaimplementowany we wspomianym
+Algorytm służący do wykrywania ataku DDoS zaimplementowany we wspomnianym
 systemie bazuje na entropii pakietów w sieci. Spadek entropii oznacza spadek
 losowości pakietów. W przypadku ataku DDoS duża ilość pakietów w sieci
 skierowana jest do pojedynczego węzła końcowego, powodując spadek losowości
