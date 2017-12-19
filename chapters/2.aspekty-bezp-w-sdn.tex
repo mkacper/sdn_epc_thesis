@@ -4,7 +4,7 @@
 Ostatnimi czasy, sieci sterowane programowo (SDN) zdobywają popularność zarówno
 w środowiskach akademickich, jak również wśród komercyjnych przedsiębiorstw.
 Zcentralizowany model zarządzania siecią, jaki wprowadzono w architekturze SDN
-fundamentalnie zmienił spojrzenie na sposób zarządznia w sieciach rozproszonych
+fundamentalnie zmienił spojrzenie na sposób zarządzania w sieciach rozproszonych
 \cite{ddosNYarticle}. Sieci SDN dostarczają nowych możliwości w zakresie
 monitorowania sieci, a co za tym idzie, również w zakresie wykrywania ataków
 sieciowych, m.in. ataków typu DDoS (z ang. \textit{distributed
@@ -30,11 +30,11 @@ dzisiejszych sieciach SDN \cite{ddoskoreaarticle}. Przełącznik SDN przełącza
 pakiety zgodnie z tablicą przepływów (z ang. \textit{flow table}). Przepływ
 charakteryzuje pewną grupę podobnych pakietów, np. mających taki sam adres
 docelowy \textit{IP}. Każda reguła w tablicy przepływów określa jaką akcję
-przełącznik powinien podjąc w związku z danymi należącymi do danego
-przepływu, np. przełączyć je na port X. Tablica przepływów jest zarządzna przez
+przełącznik powinien podjąć w związku z danymi należącymi do danego
+przepływu, np. przełączyć je na port X. Tablica przepływów jest zarządzana przez
 kontroler sieci SDN.
 
-Przełącznik oraz kontroler komunikują się ze sobą z wykorzstaniem
+Przełącznik oraz kontroler komunikują się ze sobą z wykorzystaniem
 predefiniowanych wiadomości protokołu \textit{OpenFlow}. W przypadku, gdy
 przełącznik nie znajduje reguły w tablicy przepływów pasującej do ramki/pakietu,
 którą otrzymał, wysyła wiadomość \textit{PACKET\_IN} protokołu
@@ -42,7 +42,7 @@ którą otrzymał, wysyła wiadomość \textit{PACKET\_IN} protokołu
 pakietem/ramką i przekazuje tę informację do przełącznika za pomocą wiadomości
 \textit{PACKET\_OUT}. Następnie instaluje nowy przepływ w tablicy przepływów
 przełącznika, aby mógł on przełączać podobne pakiety/ramki bez konieczności
-udziału kotrolera. W tym celu kontroler wysła do przełącznika wiadomość
+udziału kotrolera. W tym celu kontroler wysyła do przełącznika wiadomość
 \textit{FLOW\_ADD}. Protokół \textit{OpenFlow} definiuje o wiele więcej
 wiadomości, jednakże nie ma konieczności ich omawiania na potrzeby niniejszej
 pracy inżynierskiej.
@@ -50,8 +50,8 @@ pracy inżynierskiej.
 \section{Bezpieczeństwo sieci SDN w kontekście ataku DDoS}
 
 Sieci SDN są nadal stosunkowo nową koncepcją, która nie jest jeszcze w
-powszechnym użyciu, ale wzraz ze wzrostem zaintersowania tą technologią oraz
-powszechności użycia, sieci SDN staną się w niedelakiej przyszłości celem ataków
+powszechnym użyciu, ale wraz ze wzrostem zainteresowania tą technologią oraz
+powszechności użycia, sieci SDN staną się w niedalekiej przyszłości celem ataków
 \cite{sdnsecurityblog}. W tym podrozdziale zostanie omówiona kwestia
 bezpieczeństwa sieci SDN w kontekście ataku DDoS.
 
@@ -77,18 +77,18 @@ sieciach SDN ma kluczowe znaczenie dla poprawnego działania całej sieci.
 
 \section{Metody wykrywania ataków DDoS w sieciach SDN}
 
-Ataki DDoS w kontekście sieci SDN budzą duże zaintersowanie w środowisku
-akademickim. Pojawiło się dość sporo artykułów naukowych prezentujących rozmiate
+Ataki DDoS w kontekście sieci SDN budzą duże zainteresowanie w środowisku
+akademickim. Pojawiło się dość sporo artykułów naukowych prezentujących rozmaite
 metody wykrywania tego typu ataków. Opisane zostały zarówno bardzo podstawowe
 metody bazujące na entropii, jak również te bardziej zaawansowane. Na potrzeby
 niniejszej pracy przywołano i pokrótce opisano wybrane metody wykrywania
 ataków DDoS. 
 
 Jedna z metod przedstawiona w \cite{ddosNYarticle} opisuje sposób wykrywania
-ataku bazujący na monitorowaniu natężnia ruchu dla poszczególnych przepływów, a
-także ich asymetrii, tzn. monitorowania natężnia ruchu w obie strony: zarówno
+ataku bazujący na monitorowaniu natężenia ruchu dla poszczególnych przepływów, a
+także ich asymetrii, tzn. monitorowania natężenia ruchu w obie strony: zarówno
 ruchu do potencjalnej ofiary, jak i od niej. Dzięki takiemu podejściu możliwe
-jest odróżnienie naturalnych przepływów o wysokim natężneiu np. transfer danych
+jest odróżnienie naturalnych przepływów o wysokim natężeniu np. transfer danych
 pomiędzy centrami danych od przepływów odpowiedzialnych za atak DDoS.
 Wykorzystanie wspomnianej metody opisano na dwa sposoby, jako \textit{Metodę
   Sekwencyjną} oraz \textit{Metodę Równoległą}. 
@@ -105,7 +105,7 @@ są rzadko stosowane \cite{ddoskoreaarticle}.
 Metoda wykrywania ataków DDoS bazująca na entropii została opisana w
 \cite{mainddosarticle}. Entropia jest obliczana na podstawie docelowych adresów
 \textit{IP} poszczególnych pakietów w sieci. Jest ona obliczana dla zadanej
-długości okna, które składa się z ustalonej liczby pakietów. Gdy obliczna
+długości okna, które składa się z ustalonej liczby pakietów. Gdy obliczona
 entropia spadnie poniżej zadanego poziomu dla kilku następujących po sobie okien
 uznaje się, że w sieci nastąpił atak. Algorytm ten został zaimplementowany w
 projekcie wykonanym na potrzeby niniejszej pracy inżynierskiej. Został on
@@ -122,5 +122,5 @@ zapisywane w specjalnej strukturze danych, na potrzeby której wykorzystano Filt
 Blooma \footnote{https://en.wikipedia.org/wiki/Bloom\_filter}.
 Odpowiedzialnością \textit{Detecor}'a jest skanowanie sieci w celu pozyskania
 pakietów do analizy. Następnie komponent sprawdza, czy dany pakiet należy do
-któregoś z podejrzanych przepłyów i wysyła odpowiednie powiadomienie do
+któregoś z podejrzanych przepływów i wysyła odpowiednie powiadomienie do
 kontrolera SDN.
