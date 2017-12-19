@@ -1,9 +1,9 @@
 \chapter{Projekt i jego implementacja}
 
-Założeniami projektu opisanego w ninejszej pracy było stworzenie prototypu
+Założeniami projektu opisanego w niniejszej pracy było stworzenie prototypu
 oprogramowania umożliwiającego wykrywanie ataków DDoS w sieciach SDN oraz, co
 ważniejsze, dającego się łatwo skalować w celu zwiększenia jego wydajności.
-Wykorzystanie właściwej archtiektury rozwiązania oraz dobór odpowiednich
+Wykorzystanie właściwej architektury rozwiązania oraz dobór odpowiednich
 technologii do jego implementacji umożliwiły osiągnięcie zamierzonych celów.
 
 \section{Architektura rozwiązania wykrywania ataku DDoS}
@@ -22,7 +22,7 @@ kontrolera lub działać na osobnym węźle. Dodatkowo oprogramowanie ma dostęp
 danych wymienianych pomiędzy przełącznikiem, a kontrolerem. Możliwość analizy
 tychże danych była podstawą do implementacji algorytmu do wykrywania ataków DDoS
 w sieci. Szczegóły dotyczące algorytmu zostały opisane w późniejszym rozdziale
-ninejszej pracy. 
+niniejszej pracy. 
 
 Oprogramowanie zaimplementowano z myślą o działaniu na osobnym węźle,
 ponieważ dzięki takiemu podejściu, w przypadku równoległego działania
@@ -51,11 +51,11 @@ Jak przedstawiono na Rys. \ref{fig:sdn_epc_flow} węzły końcowe
 rozwiązanie projektowe (\textit{sample component}). 
 
 Topologia zaprezentowana na Rys \ref{fig:sdn_epc_flow}, jak wspomniano, jest
-tolopogią najbardziej podstawową, odpowiednią do wykorzystania przybliżonego
+topologią najbardziej podstawową, odpowiednią do wykorzystania przybliżonego
 rozwiązania. Możliwe jest również zastosowanie go w bardziej
 rozbudowanej sieci, składającej się z większej liczby węzłów końcowych, 
 przełączników oraz kontrolerów. W takim przypadku, można użyć kilku instancji
-równlegle działającego oprogramowania (komponentu), w celu zwiększenia
+równolegle działającego oprogramowania (komponentu), w celu zwiększenia
 wydajności systemu, rozumianego jako kilka współpracujących ze sobą instancji.
 System taki, można zastosować do większych, pracujących pod większym obciążeniem
 sieci.
@@ -66,21 +66,22 @@ Podstawowym kryterium wyboru odpowiednich technologii do realizacji projektu
 była wydajność. Wydajność jest rozumiana jako ilość pracy wykonana przez system
 komputerowy w danym czasie i przy wykorzystaniu danej ilości zasobów
 obliczeniowych \cite{distrforfunandprof}. Na potrzeby projektu, odpowiedni
-poziom wydajności został zapewniony dzięki doborze techologi, które wspierają
+poziom wydajności został zapewniony dzięki doborze technologii, które wspierają
 koncepcję programowania współbieżnego, czyli możliwość wykonywania się
-oprogramowania z wykorzytaniem wielu wątków fizycznych procesora maszyny, na
+oprogramowania z wykorzystaniem wielu wątków fizycznych procesora maszyny, na
 której zostało ono uruchomione. Ponadto przy wyborze technologi, kierowano się
-również natywnym wsparciem dla możliwosći dystrybucji oprogramowania na wiele
+również natywnym wsparciem dla możliwości dystrybucji oprogramowania na wiele
 maszyn fizycznych, czyli, innymi słowy, wsparciem dla budowania systemów
 rozproszonych. Możliwość rozbudowy systemu z wykorzystaniem wielu maszyn jest
-kluczowa, ponieważ nawet dysponując technolgią ze wsparciem dla programowania
+kluczowa, ponieważ nawet dysponując technologią ze wsparciem dla programowania
 współbieżnego, istnieje granica dla rozbudowy zasobów sprzętowych, dlatego w
 pewnym momencie koniecznym jest budowa systemu rozproszonego
 \cite{distrforfunandprof}. 
 
-Wykorzystanie technolgii, która umożliwa programowanie współbieżne oraz wspiera
-budowę systemów rozproszonych, umożliwiło taką implementację projeku, która
-pozwala na łatwe oraz efektywne jego skalowanie, celem zwiększenia wydajności.
+Wykorzystanie technologii, która umożliwia programowanie współbieżne oraz
+wspiera budowę systemów rozproszonych, umożliwiło taką implementację projektu,
+która pozwala na łatwe oraz efektywne jego skalowanie, celem zwiększenia
+wydajności.
 
 Technologiami, które spełniają wszystkie wyżej wymienione wytyczne są funkcyjne
 języki programowania Erlang oraz Elixir. Oba te języki działają na Maszynie
@@ -101,7 +102,7 @@ pracy.
 
 \section{Algorytm detekcji ataku DDoS} \label{algorithm}
 
-Alogrytm detekcji ataku, zaimplementowany na potrzeby opisywanego projektu
+Algorytm detekcji ataku, zaimplementowany na potrzeby opisywanego projektu
 bazuje na entropii pakietów przepływających przez sieć SDN. Entropia pakietów
 rozumiana jest jako ich losowość. Im większa entropia tym większa losowość
 pakietów i odwrotnie \cite{mainddosarticle}. Entropia jest wyliczana na
@@ -112,11 +113,11 @@ H = -\sum_{i=1}^{n}p_{i}\log_{}p_{i}
 \label{equ:entropy}
 \end{equation}
 gdzie $H$ oznacza wartość entropii, $n$ liczbę pakietów (tzw. rozmiar okna),
-a $p_{i}$ wartość prawdopodbieństwa wystąpienia poszczególnego pakietu.
+a $p_{i}$ wartość prawdopodobieństwa wystąpienia poszczególnego pakietu.
 
-Wspomniany rozmiar okna jest defininowany jako ilość pakietów, dla których
+Wspomniany rozmiar okna jest definiowany jako ilość pakietów, dla których
 jest obliczana entropia. Rozważając przypadek dla okna o rozmiarze 50, przy
-założeniu, że każdy element okna wystąpił dokładnie jeden raz, wartośc entropi
+założeniu, że każdy element okna wystąpił dokładnie jeden raz, wartość entropii
 obliczonej zgodnie ze wzorem \ref{equ:entropy} wyniesie 1,70. Natomiast w
 przypadku, gdy jeden z elementów okna pojawi się dokładnie dziesięć razy, a
 pozostałe 40 elementów tylko raz, entropia wyniesie 1,47.
@@ -131,7 +132,7 @@ DDoS.
 
 Zaimplementowany algorytm analizuje adresy docelowe pakietów \textit{IP}
 przepływających przez sieć, tj. zlicza ilość wystąpień każdego adresu docelowego
-zawartego w badanych pakietach \textit{IP}. Gdy ilość przeanalizwanych pakietów
+zawartego w badanych pakietach \textit{IP}. Gdy ilość przeanalizowanych pakietów
 jest równa rozmiarowi okna obliczana jest entropia. W tym celu wykorzystywane są
 równania: \ref{equ:entropy}, \ref{equ:window} \cite{mainddosarticle} oraz
 \ref{equ:packet_prob} \cite{mainddosarticle}.
@@ -163,16 +164,16 @@ głównej mierze wykonana przy użyciu języka programowania Elixir, aczkolwiek
 wykorzystuje również kod napisany w Erlangu (głównie do interakcji z
 zewnętrznymi Erlangowymi bibliotekami). Użycie dwóch języków jednocześnie było
 możliwe ponieważ, jak wspomniano we wcześniejszym rozdziale, oba te języki
-finalnie są kompilowne do tego samego kodu binarnego i wykonują się na tej samej
-maszynie wirtualnej (\textit{BEAM}). Ponadto kompilator Elixira potrafi również 
-kompilować kod Erlanga.
+finalnie są kompilowane do tego samego kodu binarnego i wykonują się na tej
+samej maszynie wirtualnej (\textit{BEAM}). Ponadto kompilator Elixira potrafi
+również kompilować kod Erlanga.
 
 \subsection{Zasada działania aplikacji}
 
 Jak przedstawiono na Rys. \ref{fig:sdn_epc_flow} strona
 \pageref{fig:sdn_epc_flow} aplikacja \textit{sdn\_epc} została zaprogramowana
 jako osobny komponent, działający na osobnej maszynie, połączony bezpośrednio z
-przełącznikami oraz z kontrolerm sieci SDN. Komponenty te komunikują się ze
+przełącznikami oraz z kontrolerem sieci SDN. Komponenty te komunikują się ze
 sobą z wykorzystaniem protokołu \textit{OpenFlow}. W przedstawionej konfiguracji,
 cały ruch sieciowy pomiędzy przełącznikami, a kontrolerem przepływa przez
 komponent \textit{sdn\_epc}. Umożliwienie połączenia systemu Elixirowego z
@@ -193,11 +194,11 @@ wyniki wykorzystywane są do działania wspomnianego algorytmu.
 
 \subsection{Wydajność aplikacji}
 
-Architektura aplikacji \textit{sdn\_epc} uwzględnia możliwosci jakie daje
+Architektura aplikacji \textit{sdn\_epc} uwzględnia możliwości jakie daje
 Maszyna Wirtualna Erlanga w zakresie programowania równoległego oraz dystrybucji
 oprogramowania na wiele węzłów. Dzięki wsparciu dla programowania równoległego
 aplikacja \textit{sdn\_epc} może w tym samym czasie obsługiwać wiele (w
-rzeczywistości tyle ile wątków może obsłużyc maszyna, na której działa
+rzeczywistości tyle ile wątków może obsłużyć maszyna, na której działa
 aplikacja) podłączonych do niej przełączników sieci SDN. \textit{BEAM} wprowadza
 koncepcję procesów, w kontekście których, wykonuje się każdy kawałek
 Erlangowego/Elixirowego kodu. Koncepcja ta jest podobna do koncepcji procesów
@@ -207,13 +208,13 @@ kontekście zużycia zasobów systemowych niż tradycyjne procesy \cite{progelix
 Wykorzystując koncepcję procesów, kod odpowiedzialny za obsługę przełączników
 podłączonych do aplikacji wykonuje się w osobnym procesie dla każdego z nich.
 Innym słowy, każdy przełącznik jest obsługiwany przez osobny, dedykowany dla
-niego proces, co umożliwa jednoczesną obsługę wielu przełączników.
+niego proces, co umożliwia jednoczesną obsługę wielu przełączników.
 
 Aplikacja \textit{sdn\_epc} może działać w klastrze, dzięki czemu możliwe jest
 zwiększenie jej wydajności. Do działania w klastrze aplikacja wykorzystuje
 wbudowany w \textit{BEAM}'a mechanizm zwany \textit{Erlang Distributed}
-\footnote{http://erlang.org/doc/reference\_manual/distributed.html}. Mechnizm
-ten umożliwa komunikowanie się ze sobą wielu węzłów (Maszyn Wirtualnych
+\footnote{http://erlang.org/doc/reference\_manual/distributed.html}. Mechanizm
+ten umożliwia komunikowanie się ze sobą wielu węzłów (Maszyn Wirtualnych
 Erlanga) \cite{erldocs}. Dzięki wspomnianej koncepcji procesów rozproszenie
 oprogramowania na wiele węzłów nie stanowi problemu, ponieważ z punktu widzenia
 Erlangowego systemu nie ma znaczenia na którym węźle wykonuje się dany proces
@@ -223,10 +224,10 @@ działają \cite{erldocs}). Jednakże w przypadku działania w aplikacji
 zapisywanych na potrzeby algorytmu do wykrywania ataku DDoS) pomiędzy węzłami.
 
 Silna konsystencja (z ang. \textit{strong consistency}) w nomenklaturze systemów
-rozprosznych oznacza, że wszystkie węzły widzą dokładnie ten same dane w
+rozproszonych oznacza, że wszystkie węzły widzą dokładnie ten same dane w
 tym samym czasie \cite{distrforfunandprof}. Algorytm zaimplementowany w
-aplikacji \textit{sdn\_epc} wymaga takiego własnie poziomu konsystencji danych,
-ponieważ tylko jeden węzeł w tym samy czasie powinien wykryć atak i ewentulanie
+aplikacji \textit{sdn\_epc} wymaga takiego właśnie poziomu konsystencji danych,
+ponieważ tylko jeden węzeł w tym samy czasie powinien wykryć atak i ewentualnie
 podjąć jakąś akcję. Baza danych \textit{Mnesia}, zastosowana na potrzeby
 algorytmu umożliwia takie jej wykorzystanie, które pozwala na osiągniecie silnej
 konsystencji danych. W tym celu wykorzystano koncepcję transakcji, które
@@ -234,5 +235,5 @@ wprowadza \textit{Mnesia}. Transakcję odgrywają rolę globalnych \textit{mutex
 (z ang. \textit{mutual exclusion}
 \footnote{https://en.wikipedia.org/wiki/Mutual\_exclusion}), zapobiegając
 równoczesnemu dostępowi różnych węzłów \textit{sdn\_epc} do danych. Zastosowanie
-transakcji umożliwiło poprawną implementację algortymu dla przypadku, gdy
+transakcji umożliwiło poprawną implementację algorytmu dla przypadku, gdy
 aplikacja \textit{sdn\_epc} działa w klastrze.
