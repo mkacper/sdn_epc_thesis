@@ -2,22 +2,22 @@
 
 W celu weryfikacji poprawności działania zaimplementowanego systemu zostały
 wykonane serie testów. System został przetestowany pod kątem sprawdzenia
-podstawowych założeń projektowych tj. poprawności wykrywania anomali związanych
+podstawowych założeń projektowych, tj. poprawności wykrywania anomali związanych
 z natężeniem ruchu w obsługiwanej sieci oraz możliwości skalowania
 aplikacji \textit{sdn\_epc} w celu zwiększenia wydajności systemu.
 Przeprowadzenie testów wymagało przygotowania odpowiednich scenariuszy testowych,
 zestawienia dedykowanych topologii sieciowych oraz stworzenia rozwiązań
 pozwalających na zebranie właściwych danych z testowanego systemu. Analiza
-tychże wyników pozwoliła na stwierdzenie, czy i w jakim stopniu założenia
+tychże wyników pozwoliła na stwierdzenie, czy i w jakim stopniu, założenia
 projektowe zostały spełnione. Niniejszy rozdział szczegółowo opisuje
 poszczególne przypadki testowe oraz prezentuje analizę uzyskanych wyników.
 
 \section{Test działania implementacji algorytmu}
 
-Aby stwierdzić, czy zaimplementowany algorytm (rozdział \ref{algorithm} strona
-\pageref{algorithm}) w aplikacji \textit{sdn\_epc} spełnia swoją rolę tzn.
+Aby stwierdzić czy zaimplementowany algorytm (rozdział \ref{algorithm} strona
+\pageref{algorithm}) w aplikacji \textit{sdn\_epc} spełnia swoją rolę, tzn.
 pozwala wykryć atak DDoS w sieci SDN zostały przeanalizowane wartości entropii
-obliczone za pomocą tegoż właśnie algorytmu w dwóch różnych przypadkach
+obliczone za pomocą tegoż właśnie algorytmu, w dwóch różnych przypadkach
 testowych, z których każdy wykorzystywał nieco inną konfigurację testową
 topologii sieciowej, jak również samej aplikacji \textit{sdn\_epc}.
 Przetestowane zostały przypadki, gdy:
@@ -28,7 +28,7 @@ Przetestowane zostały przypadki, gdy:
     aplikacji \textit{sdn\_epc} działających w klastrze.
 \end{enumerate}
 Wykorzystanie takich właśnie przypadków testowych umożliwiło sprawdzenie
-poprawności implementacji algorytmu zarówno w przypadku działania systemu jako
+poprawności implementacji algorytmu, zarówno w przypadku działania systemu jako
 pojedynczy węzeł aplikacji \textit{sdn\_epc}, jak również w przypadku, gdy
 system działał w klastrze. Drugi przypadek jest znacznie bardziej złożony,
 ponieważ rozproszenie procesu obliczania algorytmu na wiele węzłów wprowadza
@@ -99,7 +99,7 @@ W celu poprawnego działania algorytmu musi zostać spełnione założenie: dla
 każdego nowego połączenia (adres źródłowy/docelowy, port źródłowy/docelowy oraz
 protokół; na potrzeby ninejszej pracy wykorzystano tylko adres
 docelowy/źródłowy) kontroler sieci SDN instaluje nowy przepływ w przełączniku
-sieci SDN \cite{mainddosarticle}. Przy takim założeniu, każde nowe połączenie w
+sieci SDN \cite{mainddosarticle}. Przy takim założeniu każde nowe połączenie w
 sieci wygeneruje wiadomość \textit{PACKET\_IN}, która następnie zostanie
 przeanalizowana przez węzeł \textit{sdn\_epc}. Aby spełnić to założenie należało
 zmodyfikować logikę przełącznika zaimplementowaną w kontrolerze. Modyfikacja
@@ -195,10 +195,10 @@ niej algorytmu, dla poszczególnych prób testowych.
 \end{figure}
 \newpage
 
-Zależność entropii od siły ataku, przedstawiona na wykresie \ref{plot:entropy},
+Zależność entropii od siły ataku przedstawiona na wykresie \ref{plot:entropy},
 jest taka, jak przewidywano. Wraz ze wzrostem siły ataku wartość entropii
 maleje, ponieważ im większa siła ataku, tym większy procent wszystkich pakietów
-w sieci trafia do jednego, atakowanego, węzła końcowego. W związku z tym,
+w sieci trafia do jednego, atakowanego, węzła końcowego. W związku z tym
 losowość poszczególnych pakietów spada, tym samym powodując spadek entropii
 pakietów w sieci.
 
@@ -313,10 +313,10 @@ obliczonej entropii w obu przypadkach są niemal identyczne. Widoczne różnice
 mogą być spowodowane przez straty pakietów w sieci (średnio w każdej próbie, z
 wykorzystaniem topologii przedstawionej na Rys. \ref{fig:entropia_multi_scheme},
 2,9\% wszystkich pakietów nie dotarło do węzła \textit{sdn\_epc}) oraz
-niedoskonałością generatora losowego wykorzystanego do generowania adresów
-docelowych dla pakietów \textit{IP} użytych do generowania ruchu podczas prób
-testowych. Ze względu na ograniczenia techniczne, związane z dostępem do zasobów
-obliczeniowych niezbędnych do przeprowadzenia testów, zjawiska te nie zostały
+niedoskonałością generatora losowego, wykorzystanego do generowania adresów
+docelowych dla pakietów \textit{IP}, użytych do generowania ruchu podczas prób
+testowych. Ze względu na ograniczenia techniczne związane z dostępem do zasobów
+obliczeniowych, niezbędnych do przeprowadzenia testów, zjawiska te nie zostały
 naukowo zbadane w niniejszej pracy. Jednakże różnice w wynikach są  na tyle
 małe, że można uznać, iż zaimplementowany algorytm, służący do wykrywania ataku
 DDoS, działa poprawnie zarówno w systemie rozproszonym jak i z wykorzystaniem
@@ -369,9 +369,9 @@ Rozwiązanie przedstawione na Rys. \ref{fig:cluster_scheme_single_node}
 wykorzystuje klaster węzłów \textit{sdn\_epc}, podczas gdy tylko jeden węzeł
 jest zaangażowany w obsługę ruchu sieciowego. Takie rozwiązanie nie powinno być
 wdrożone w jakimkolwiek systemie produkcyjnym, ponieważ budowanie klastra, w
-którym używany jest tylko jeden węzeł w większości przypadków nie ma logicznego
+którym używany jest tylko jeden węzeł, w większości przypadków nie ma logicznego
 uzasadnienia. Rozwiązanie to zostało wykorzystane na potrzeby niniejszej pracy
-inżynierskiej tylko i wyłącznie z powodu niedoskonałości aplikacji
+inżynierskiej, tylko i wyłącznie z powodu niedoskonałości aplikacji
 \textit{sdn\_epc}. W obecnej wersji aplikacji nie zostały dokonane żadne
 optymalizacje związane z synchronizacją i dostępem do stanu pomiędzy węzłami. Z
 powodu braku wspomnianych optymalizacji działanie aplikacji w klastrze wprowadza
@@ -382,7 +382,7 @@ przypadku, gdy ruch sieciowy jest obsługiwany przez jeden węzeł
 obliczeniowych dla wspominanych przypadków testowych nie zawiera wyż.wym.
 narzutu. 
 
-Architektura środowiska wykorzystanego na potrzeby testu jest dokładnie taka
+Architektura środowiska wykorzystanego na potrzeby testu, jest dokładnie taka
 sama jak przedstawiono na Rys. \ref{fig:entropy_multi_tech} strona
 \pageref{fig:entropy_multi_tech} oraz opisano w sekcji \ref{entropy_multi_node}.
 Wykorzystuje ona te same komponenty, rozwiązania oraz technologie jak te, które
@@ -423,7 +423,7 @@ Na Rys. \ref{plot:cpu_usage} wyraźnie widać, że dla przypadku testowego, gdy
 wygenerowany ruch sieciowy był obsługiwany przez 3 węzły \textit{sdn\_epc}
 zużycie zasobów znacząco zmalało, względem próby, podczas której cały ruch
 sieciowy obsługiwał tylko jeden węzeł \textit{sdn\_epc}. Zużycie zasobów nie
-zmalało dokładnie 3-krotnie, ponieważ działanie w aplikacji w klastrze wprowadza
+zmalało dokładnie 3-krotnie, ponieważ działanie aplikacji w klastrze wprowadza
 dodatkowy narzut związany m.in. z rywalizacją węzłów o dostęp do stanu, który
 jest niezbędny do ich poprawnego działania. Podsumowując wykres
 \ref{plot:cpu_usage} dowodzi, że aplikację \textit{sdn\_epc} można skalować
