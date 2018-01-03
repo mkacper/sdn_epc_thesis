@@ -32,7 +32,7 @@ poprawności implementacji algorytmu, zarówno w przypadku działania systemu ja
 pojedynczy węzeł aplikacji \textit{sdn\_epc}, jak również w przypadku, gdy
 system działał w klastrze. Drugi przypadek jest znacznie bardziej złożony,
 ponieważ rozproszenie procesu obliczania algorytmu na wiele węzłów wprowadza
-dodatkowe komplikacje, związane z synchronizacją stanu pomiędzy węzłami.
+dodatkowe problemy, związane z synchronizacją stanu pomiędzy węzłami.
 
 \subsection{Przypadek testowy z wykorzystaniem jednego węzła aplikacji
   \textit{sdn\_epc}} \label{entropy_one_node}
@@ -51,11 +51,11 @@ Rys. \ref{fig:entropia_scheme}.
 
 W topologii przedstawionej na Rys. \ref{fig:entropia_scheme} wszystkie
 przełączniki obsługujące ruch pomiędzy węzłami końcowymi (\textit{PC N})
-komunikują się z kontrolerem (\textit{SDN controller}) poprzez jeden węzeł
+komunikują się z sterownikiem (\textit{SDN controller}) poprzez jeden węzeł
 aplikacji \textit{sdn\_epc}. Wykorzystując taką konfigurację sieci, tylko jeden
 węzeł \textit{sdn\_epc} przetwarza wiadomości \mbox{\textit{PACKET\_IN}}
 protokołu \textit{OpenFlow}, wymieniane pomiędzy poszczególnymi przełącznikami,
-a kontrolerem, w celu obliczenia entropii pakietów przesyłanych w sieci.
+a sterownikiem, w celu obliczenia entropii pakietów przesyłanych w sieci.
 
 Jeśli algorytm został poprawnie zaimplementowany to wartość entropii,
 obliczonej za jego pomocą, powinna maleć wraz ze spadkiem losowości pakietów
@@ -89,7 +89,7 @@ Przełączniki sieci SDN (\textit{SDN switch}) oraz węzły końcowe (\textit{PC
 przełączniki to domyślne przełączniki używane przez oprogramowanie
 \textit{Mininet}, które działają na bazie oprogramowania
 \textit{Open vSwitch \footnote{http://openvswitch.org}} \cite{mininetwiki}.
-\textit{SDN controller}, pełniący funkcję kontrolera w testowej topologii,
+\textit{SDN controller}, pełniący funkcję sterownika w testowej topologii,
 korzystał z oprogramowania zbudowanego z wykrzystaniem framework'a
 \textit{Ryu \footnote{https://osrg.github.io/ryu}}. Maszyny wirtualne dedykowane
 dla \textit{sdn\_epc} i \textit{SDN controller} działały pod kontrolą systemu
@@ -98,13 +98,13 @@ operacyjnego \textit{Ubuntu \footnote{https://www.ubuntu.com}}.
 W celu poprawnego działania algorytmu musi zostać spełnione założenie: dla
 każdego nowego połączenia (adres źródłowy/docelowy, port źródłowy/docelowy oraz
 protokół; na potrzeby ninejszej pracy wykorzystano tylko adres
-docelowy/źródłowy) kontroler sieci SDN instaluje nowy przepływ w przełączniku
+docelowy/źródłowy) sterownik sieci SDN instaluje nowy wpis w przełączniku
 sieci SDN \cite{mainddosarticle}. Przy takim założeniu każde nowe połączenie w
 sieci wygeneruje wiadomość \textit{PACKET\_IN}, która następnie zostanie
 przeanalizowana przez węzeł \textit{sdn\_epc}. Aby spełnić to założenie należało
-zmodyfikować logikę przełącznika zaimplementowaną w kontrolerze. Modyfikacja
+zmodyfikować logikę przełącznika zaimplementowaną w sterowniku. Modyfikacja
 wymagała przeprogramowania \textit{Python}'owego skryptu odpowiedzialnego za
-implementację logiki przełącznika w oprogramowaniu kontrolera \cite{ryupage}.
+implementację logiki przełącznika w oprogramowaniu sterownika \cite{ryupage}.
 
 Scenariusz testowy zakładał przeprowadzenie kilku prób, podczas których w sieci
 były generowane ataki DDoS o różnej sile. Podczas każdej próby została zmierzona
@@ -120,17 +120,16 @@ R = \frac{P_{a}}{P_{n}} \cdot 100\%
 gdzie R oznacza siłę ataku, $P_{a}$ pakiety atakujące, natomiast $P_{n}$ pakiety
 tła.
 
-Pakiety tła rozumiane są jako pakiety
-\textit{IP \footnote{https://tools.ietf.org/html/rfc791\#section-3.1}} wysyłane
-do losowo wybranych węzłów końcowych w stałych odstępach czasowych. Pakiety
-atakujące oznaczają pakiety \textit{IP}, które zawierają losowe adresy źródłowe
-oraz są wysyłane do konkretnego węzła końcowego w 4-krotnie krótszych odstępach
-czasowych niż pakiety tła. 
+Pakiety tła rozumiane są jako pakiety \textit{IP} wysyłane do losowo wybranych
+węzłów końcowych w stałych odstępach czasowych. Pakiety atakujące oznaczają
+pakiety \textit{IP}, które zawierają losowe adresy źródłowe oraz są wysyłane do
+konkretnego węzła końcowego w 4-krotnie krótszych odstępach czasowych niż
+pakiety tła.
 
 Podczas każdej próby wybrane węzły końcowe generowały pakiety tła oraz
 pakiety atakujące (jeden węzeł generował jeden typ pakietów). Do generowania
 pakietów została wykorzystana biblioteka języka \textit{Python} o nazwie
-\textit{ Scapy \footnote{http://www.secdev.org/projects/scapy}}. Szczegółowe
+\mbox{\textit{Scapy \footnote{http://www.secdev.org/projects/scapy}}}. Szczegółowe
 dane opisujące każdą z prób zostały przedstawione w Tab. \ref{tab:entropy}.
 
 \begin{table}[h!]
@@ -225,7 +224,7 @@ został zaprezentowany na Rys. \ref{fig:entropia_multi_scheme}.
 Topologia przedstawiona na Rys. \ref{fig:entropia_multi_scheme} jest bardzo
 podobna do przedstawionej na Rys. \ref{fig:entropia_scheme} na stronie
 \pageref{fig:entropia_scheme}. W tym przypadku każdy przełącznik w sieci
-komunikuje się z kontrolerem poprzez dedykowany węzeł aplikacji
+komunikuje się z sterownikiem poprzez dedykowany węzeł aplikacji
 \textit{sdn\_epc}, a więc w klastrze działa dokładnie tyle węzłów
 \textit{sdn\_epc} ile jest przełączników w sieci. Każdy węzeł aplikacji
 obsługuje tylko jeden przełącznik. Najważniejszą różnicą, względem przypadku,
@@ -233,7 +232,7 @@ gdy tylko jeden węzeł aplikacji obsługuje wszystkie przełączniki w sieci, j
 rozproszenie procesu obliczania entropii na wiele węzłów \textit{sdn\_epc}.
 
 W związku z tym, że rozproszenie procesu obliczania entropii na wiele węzłów,
-wprowadziło szereg komplikacji, które należało uwzględnić, aby poprawnie ją
+wprowadziło szereg problemów, które należało uwzględnić, aby poprawnie ją
 obliczyć, zostały przeprowadzone dokładnie takie same próby testowe, jak opisano
 w sekcji \ref{entropy_one_node} ale z wykorzystaniem innej topologii testowej.
 Przeprowadzenie bliźniaczych prób pozwoliło porównać wyniki, tj. wartości
@@ -383,10 +382,9 @@ obliczeniowych dla wspominanych przypadków testowych nie zawiera wyż.wym.
 narzutu. 
 
 Architektura środowiska wykorzystanego na potrzeby testu, jest dokładnie taka
-sama jak przedstawiono na Rys. \ref{fig:entropy_multi_tech} strona
-\pageref{fig:entropy_multi_tech} oraz opisano w sekcji \ref{entropy_multi_node}.
-Wykorzystuje ona te same komponenty, rozwiązania oraz technologie jak te, które
-opisano w wyż.wym. sekcji.
+sama jak przedstawiono na Rys. \ref{fig:entropy_multi_tech} oraz opisano w
+sekcji \ref{entropy_multi_node}. Wykorzystuje ona te same komponenty,
+rozwiązania oraz technologie jak te, które opisano w wyż.wym. sekcji.
 
 Scenariusz testowy, który wykorzystano podczas dwóch przeprowadzonych prób
 testowych (Ad. \ref{tc:cluster_1} oraz Ad. \ref{tc:cluster_n} strona

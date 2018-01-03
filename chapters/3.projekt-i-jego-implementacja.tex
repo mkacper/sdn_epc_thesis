@@ -10,25 +10,25 @@ implementacji umożliwiły osiągnięcie zamierzonych celów.
 
 Projektując tytułowe rozwiązanie należało wziąć pod uwagę następujące czynniki:
 \begin{itemize}
-  \item umiejscowienie komponentu z oprogramowaniem w architekturze sieci SDN
-  \item uzyskanie odpowiednich danych z sieci, pozwalających na wykrycie ataku
-  \item wydajność działania oprogramowania
+  \item umiejscowienie komponentu z oprogramowaniem w architekturze sieci SDN,
+  \item uzyskanie odpowiednich danych z sieci, pozwalających na wykrycie ataku,
+  \item wydajność działania oprogramowania.
 \end{itemize}
 
 Oprogramowanie zostało zaprojektowane do działania na południowym interfejsie
 architektury sieci SDN. Takie umiejscowienie dostarcza wielu możliwości.
 Pierwszą z nich jest to, że oprogramowanie może być częścią przełącznika,
-kontrolera lub działać na osobnym węźle. Dodatkowo ma dostęp do danych
-wymienianych pomiędzy przełącznikiem, a kontrolerem. Możliwość analizy tychże
+sterownika lub działać na osobnym węźle. Dodatkowo ma dostęp do danych
+wymienianych pomiędzy przełącznikiem, a sterownikiem. Możliwość analizy tychże
 danych była podstawą do implementacji algorytmu do wykrywania ataków DDoS w
 sieci. Szczegóły dotyczące algorytmu zostały opisane w późniejszym rozdziale
 niniejszej pracy.
 
 Oprogramowanie zaimplementowano z myślą o działaniu na osobnym węźle,
 ponieważ dzięki takiemu podejściu, w przypadku równoległego działania liczba
-jego instancji jest niezależna od liczby przełączników lub kontrolerów. Pozwala
+jego instancji jest niezależna od liczby przełączników lub sterowników. Pozwala
 to na bardziej elastyczne skalowanie horyzontalne oprogramowania w celu
-zwiększenia jego wydajności. Ponadto zarówno przełączniki jak i kontroler nie są
+zwiększenia jego wydajności. Ponadto zarówno przełączniki jak i sterownik nie są
 świadome obecności dodatkowego komponentu pomiędzy nimi, co pozwala uniknąć
 dodatkowego narzutu związanego z konfiguracją sieci.
 
@@ -46,7 +46,7 @@ przedstawiona na Rys. \ref{fig:sdn_epc_flow}.
 
 Jak przedstawiono na Rys. \ref{fig:sdn_epc_flow} węzły końcowe
 (\textit{PC N}) komunikują się ze sobą z wykorzystaniem przełącznika sieci SDN
-(\textit{SDN switch}), a cały ruch pomiędzy przełącznikiem, a kontrolerem
+(\textit{SDN switch}), a cały ruch pomiędzy przełącznikiem, a sterownikiem
 (\textit{SDN controller}) przepływa przez wspomniany komponent implementujący
 rozwiązanie projektowe (\textit{sample component}). 
 
@@ -54,7 +54,7 @@ Topologia zaprezentowana na Rys \ref{fig:sdn_epc_flow}, jak wspomniano, jest
 topologią najbardziej podstawową, odpowiednią do wykorzystania powyższego
 rozwiązania. Możliwe jest również zastosowanie go w bardziej
 rozbudowanej sieci, składającej się z większej liczby węzłów końcowych, 
-przełączników oraz kontrolerów. W takim przypadku, można użyć kilku instancji
+przełączników oraz sterowników. W takim przypadku, można użyć kilku instancji
 równolegle działającego oprogramowania (komponentu), w celu zwiększenia
 wydajności systemu, rozumianego jako kilka współpracujących ze sobą instancji.
 System taki można zastosować do większych, pracujących pod większym obciążeniem
@@ -156,7 +156,8 @@ zadana wartość, uznaje się, że w sieci nastąpił atak.
 
 \section{Aplikacja wykrywania ataku DDoS}
 
-Aplikacja \textit{sdn\_epc} \footnote{https://github.com/mkacper/sdn\_epc}
+Aplikacja \textit{sdn\_epc}
+\footnote{https://github.com/mkacper/sdn\_epc/tree/feature-clustering}
 (\textit{Software Defined Networking Elixir Pseudo Controller}) została w
 głównej mierze wykonana przy użyciu języka programowania Elixir, aczkolwiek
 wykorzystuje również kod napisany w Erlangu (głównie do interakcji z
@@ -170,9 +171,9 @@ Ponadto kompilator Elixira potrafi również kompilować kod Erlanga.
 Jak przedstawiono na Rys. \ref{fig:sdn_epc_flow} strona
 \pageref{fig:sdn_epc_flow} aplikacja \textit{sdn\_epc} została zaprogramowana
 jako osobny komponent, działający na osobnej maszynie, połączony bezpośrednio z
-przełącznikami oraz z kontrolerem sieci SDN. Komponenty te komunikują się ze
+przełącznikami oraz z sterownikiem sieci SDN. Komponenty te komunikują się ze
 sobą z wykorzystaniem protokołu \textit{OpenFlow}. W przedstawionej konfiguracji
-cały ruch sieciowy pomiędzy przełącznikami, a kontrolerem przepływa przez
+cały ruch sieciowy pomiędzy przełącznikami, a sterownikiem przepływa przez
 komponent \textit{sdn\_epc}. Umożliwienie połączenia systemu Elixirowego z
 komponentami sieciowym, z wykorzystaniem \textit{OpenFlow} wymaga umiejętności
 obsługi tego protokołu przez aplikację \textit{sdn\_epc}. W tym celu
@@ -197,7 +198,7 @@ oprogramowania na wiele węzłów. Dzięki wsparciu dla programowania równoleg�
 aplikacja \textit{sdn\_epc} może w tym samym czasie obsługiwać wiele (w
 rzeczywistości tyle, ile wątków może obsłużyć maszyna, na której działa
 aplikacja) podłączonych do niej przełączników sieci SDN. \textit{BEAM} wprowadza
-koncepcję procesów, w kontekście których wykonuje się każdy kawałek
+koncepcję procesów, w kontekście których wykonuje się każdy fragment
 Erlangowego/Elixirowego kodu. Koncepcja ta jest podobna do koncepcji procesów
 systemowych - wykonują się one na wszystkich procesorach (jeden proces na
 jednym procesorze w tym samym czasie), ale mają znacznie mniejszy narzut w
@@ -220,15 +221,15 @@ działają \cite{erldocs}). Jednakże w przypadku działania aplikacji
 \textit{sdn\_epc} w klastrze, pojawił się problem z synchronizacją stanu (danych
 zapisywanych na potrzeby algorytmu do wykrywania ataku DDoS) pomiędzy węzłami.
 
-Silna konsystencja (z ang. \textit{strong consistency}) w nomenklaturze systemów
+Wysoka spójność (z ang. \textit{strong consistency}) w nomenklaturze systemów
 rozproszonych oznacza, że wszystkie węzły widzą dokładnie ten same dane w
 tym samym czasie \cite{distrforfunandprof}. Algorytm zaimplementowany w
 aplikacji \textit{sdn\_epc} wymaga takiego właśnie poziomu konsystencji danych,
-ponieważ tylko jeden węzeł w tym samy czasie powinien wykryć atak i ewentualnie
+ponieważ tylko jeden węzeł w tym samym czasie powinien wykryć atak i ewentualnie
 podjąć jakąś akcję. Baza danych \textit{Mnesia}, zastosowana na potrzeby
 algorytmu, umożliwia takie jej wykorzystanie, które pozwala na osiągniecie
 silnej konsystencji danych. W tym celu wykorzystano koncepcję transakcji, które
-wprowadza \textit{Mnesia}. Transakcję odgrywają rolę globalnych
+wprowadza \textit{Mnesia}. Transakcje odgrywają rolę globalnych
 \textit{mutex}'ów (z ang. \textit{mutual exclusion}
 \footnote{https://en.wikipedia.org/wiki/Mutual\_exclusion}), zapobiegając
 równoczesnemu dostępowi różnych węzłów \textit{sdn\_epc} do danych. Zastosowanie

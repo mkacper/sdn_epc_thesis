@@ -13,18 +13,18 @@ sposoby wykrywania ataków DDoS w tego typu sieciach.
 
 \section{Sieci sterowane programowo SDN}
 Sieci sterowane programowo (z ang. \textit{Software Defined Networking})
-wprowadzają rozdział warstwy danych od warstwy zarządzającej oraz wprowadzają
+wprowadzają rozdział warstwy danych od warstwy sterującej oraz wprowadzają
 centralny punkt zarządzania siecią, który jest w pełni programowalny \cite{onf}.
 Innymi słowy, możliwe jest zaprogramowanie konfiguracji sieci. Warstwa danych
 jest odpowiedzialna tylko i wyłącznie za przełączanie danych, wedle reguł
-otrzymanych od warstwy zarządzającej. Do warstwy danych należą przełączniki SDN.
-Z kolei warstwa zarządzająca jest odpowiedzialna za podejmowanie wszelkiego
+otrzymanych od warstwy sterującej. Do warstwy danych należą przełączniki SDN.
+Z kolei warstwa sterująca jest odpowiedzialna za podejmowanie wszelkiego
 rodzaju decyzji związanych z działaniem sieci, np. określa jak powinny być
-przełączane/rutowane pakiety. Urządzeniem warstwy zarządzającej jest kontroler
-SDN. Kontroler komunikuje się z przełącznikami z wykorzystaniem tzw.
+przełączane/rutowane pakiety. Urządzeniem warstwy sterującej jest sterownik
+SDN. Sterownik komunikuje się z przełącznikami z wykorzystaniem tzw.
 południowego interfejsu \cite{sdninterfaces}.
 
-Komunikacja pomiędzy przełącznikami, a kontrolerem w sieci SDN odbywa się z
+Komunikacja pomiędzy przełącznikami, a sterownikiem w sieci SDN odbywa się z
 wykorzystaniem protokołu \textit{OpenFlow}. Jest on obecnie szeroko stosowany w
 dzisiejszych sieciach SDN \cite{ddoskoreaarticle}. Przełącznik SDN przełącza
 pakiety zgodnie z tablicą przepływów (z ang. \textit{flow table}). Przepływ
@@ -32,17 +32,17 @@ charakteryzuje pewną grupę podobnych pakietów, np. mających taki sam adres
 docelowy \textit{IP}. Każda reguła w tablicy przepływów określa jaką akcję
 przełącznik powinien podjąć w związku z danymi należącymi do danego
 przepływu, np. przełączyć je na port X. Tablica przepływów jest zarządzana przez
-kontroler sieci SDN.
+sterownik sieci SDN.
 
-Przełącznik oraz kontroler komunikują się ze sobą z wykorzystaniem
+Przełącznik oraz sterownik komunikują się ze sobą z wykorzystaniem
 predefiniowanych wiadomości protokołu \textit{OpenFlow}. W przypadku, gdy
 przełącznik nie znajduje reguły w tablicy przepływów pasującej do ramki/pakietu,
 którą otrzymał, wysyła wiadomość \textit{PACKET\_IN} protokołu
-\textit{OpenFlow}, do kontrolera. Kontroler podejmuje decyzję co zrobić z danym 
+\textit{OpenFlow}, do sterownika. Sterownik podejmuje decyzję co zrobić z danym 
 pakietem/ramką i przekazuje tę informację do przełącznika za pomocą wiadomości
 \mbox{\textit{PACKET\_OUT}}. Następnie instaluje nowy przepływ w tablicy przepływów
 przełącznika, aby mógł on przełączać podobne pakiety/ramki bez konieczności
-udziału kontrolera. W tym celu kontroler wysyła do przełącznika wiadomość
+udziału sterownika. W tym celu sterownik wysyła do przełącznika wiadomość
 \textit{FLOW\_ADD}. Protokół \textit{OpenFlow} definiuje o wiele więcej
 wiadomości, jednakże nie ma konieczności ich omawiania na potrzeby niniejszej
 pracy inżynierskiej.
@@ -58,7 +58,7 @@ bezpieczeństwa sieci SDN w kontekście ataku DDoS.
 Atak DDoS jest rodzajem ataku sieciowego, w którym atakujący wykorzystuje wiele
 węzłów sieciowych np. zainfekowanych komputerów do wygenerowania ruchu
 sieciowego adresowanego do konkretnego węzła końcowego. W efekcie atakowany
-węzeł wykazuje większe latencje lub w ogóle przestaje odpowiadać na żądania,
+węzeł wykazuje większe opóźnienia lub w ogóle przestaje odpowiadać na żądania,
 ponieważ jest całkowicie zaabsorbowany obsługą fałszywego ruchu.
 
 W przypadku sieci SDN atak DDoS powoduje dodatkowe problemy w sieci. W
@@ -66,12 +66,12 @@ niektórych pracach naukowych atak ten jest nazywany \textit{SDN-DDoS}
 \cite{ddosbronksarticle}: sieć SDN jest zalana ruchem, który nie należy do
 żadnego znanego przełącznikom w sieci przepływu (jest wręcz losowy). W takiej
 sytuacji każdy przełącznik, który obsługuje fałszywy ruch wysyła wiadomości
-\textit{PACKET\_IN} do kontrolera w celu obsługi nieznanych (fałszywych)
+\textit{PACKET\_IN} do sterownika w celu obsługi nieznanych (fałszywych)
 pakietów. Opisany stan rzeczy powoduje szereg implikacji: prawdziwy ruch
-sieciowy jest obsługiwany wolniej lub w ogóle, ponieważ kontroler jest zajęty
-przetwarzaniem fałszywego ruchu \cite{indiaarticle}. Ponadto do kontrolera jest
+sieciowy jest obsługiwany wolniej lub w ogóle, ponieważ sterownik jest zajęty
+przetwarzaniem fałszywego ruchu \cite{indiaarticle}. Ponadto do sterownika jest
 wysyłana duża liczba wiadomości \textit{PACKET\_IN}, co może doprowadzić do jego
-przeciążenia. W przypadku awarii kontrolera cała sieć SDN przestaje być
+przeciążenia. W przypadku awarii sterownika cała sieć SDN przestaje być
 użyteczna \cite{ddoskoreaarticle}. Z wyż. wym. powodów wczesne wykrycie ataku
 DDoS w sieciach SDN ma kluczowe znaczenie dla poprawnego działania całej sieci.
 
@@ -123,4 +123,4 @@ Blooma \footnote{https://en.wikipedia.org/wiki/Bloom\_filter}.
 Odpowiedzialnością \textit{Detecor}'a jest skanowanie sieci w celu pozyskania
 pakietów do analizy. Następnie komponent sprawdza, czy dany pakiet należy do
 któregoś z podejrzanych przepływów i wysyła odpowiednie powiadomienie do
-kontrolera SDN.
+sterownika SDN.
