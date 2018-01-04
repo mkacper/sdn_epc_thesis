@@ -67,21 +67,21 @@ była wydajność. Wydajność jest rozumiana jako ilość pracy wykonana przez 
 komputerowy w danym czasie i przy wykorzystaniu danej ilości zasobów
 obliczeniowych \cite{distrforfunandprof}. Na potrzeby projektu, odpowiedni
 poziom wydajności został zapewniony dzięki doborze technologii, które wspierają
-koncepcję programowania współbieżnego, czyli możliwość wykonywania się
-oprogramowania z wykorzystaniem wielu wątków fizycznych procesora maszyny, na
-której zostało ono uruchomione. Ponadto przy wyborze technologii, kierowano się
-również natywnym wsparciem dla możliwości dystrybucji oprogramowania na wiele
-maszyn fizycznych, czyli, innymi słowy, wsparciem dla budowania systemów
-rozproszonych. Możliwość rozbudowy systemu z wykorzystaniem wielu maszyn jest
-kluczowa, ponieważ nawet dysponując technologią ze wsparciem dla programowania
-współbieżnego, istnieje granica dla rozbudowy zasobów sprzętowych, w związku z
-czym w pewnym momencie koniecznym jest budowa systemu rozproszonego
-\cite{distrforfunandprof}. 
+koncepcję programowania współbieżnego i równoległego, czyli możliwość
+wykonywania się oprogramowania z wykorzystaniem wielu wątków fizycznych
+procesora lub procesorów maszyny, na której zostało ono uruchomione, w tym samym
+czasie. Ponadto przy wyborze technologii, kierowano się również natywnym
+wsparciem dla możliwości dystrybucji oprogramowania na wiele maszyn fizycznych,
+czyli, innymi słowy, wsparciem dla budowania systemów rozproszonych. Możliwość
+rozbudowy systemu z wykorzystaniem wielu maszyn jest kluczowa, ponieważ nawet
+dysponując technologią ze wsparciem dla programowania równoległego, istnieje
+granica dla rozbudowy zasobów sprzętowych, w związku z czym w pewnym momencie
+koniecznym jest budowa systemu rozproszonego \cite{distrforfunandprof}.
 
-Wykorzystanie technologii, która umożliwia programowanie współbieżne oraz
-wspiera budowę systemów rozproszonych, umożliwiło taką implementację projektu,
-która pozwala na łatwe oraz efektywne jego skalowanie, celem zwiększenia
-wydajności.
+Wykorzystanie technologii, która umożliwia programowanie współbieżne i
+równoległe oraz wspiera budowę systemów rozproszonych, umożliwiło taką
+implementację projektu, która pozwala na łatwe oraz efektywne jego skalowanie,
+celem zwiększenia wydajności.
 
 Technologiami, które spełniają wszystkie wyżej wymienione wytyczne są funkcyjne
 języki programowania Erlang oraz Elixir. Oba te języki działają na Maszynie
@@ -93,11 +93,12 @@ Erlanga \cite{thebeambook}.
 
 \textit{BEAM} wprowadza model aktorów
 \footnote{https://en.wikipedia.org/wiki/Actor\_model}, dzięki czemu posiada
-natywne wsparcie dla programowania równoległego. Ponadto zapewnia ona również
-wsparcie dla budowy systemów rozproszonych \cite{lyserlang}. Dzięki temu języki
-Erlang oraz Elixir są odpowiednie do budowy wydajnych, niezawodnych, systemów
-rozproszonych. Z tych właśnie powodów wspomniane technologie zostały
-wykorzystane do budowy projektu przedstawionego w niniejszej pracy.
+natywne wsparcie dla programowania współbieżnego i równoległego. Ponadto
+zapewnia ona również wsparcie dla budowy systemów rozproszonych
+\cite{lyserlang}. Dzięki temu języki Erlang oraz Elixir są odpowiednie do budowy
+wydajnych, niezawodnych, systemów rozproszonych. Z tych właśnie powodów
+wspomniane technologie zostały wykorzystane do budowy projektu przedstawionego w
+niniejszej pracy.
 
 \section{Algorytm detekcji ataku DDoS} \label{algorithm}
 
@@ -193,20 +194,21 @@ wyniki wykorzystywane są do działania wspomnianego algorytmu.
 \subsection{Wydajność aplikacji}
 
 Architektura aplikacji \textit{sdn\_epc} uwzględnia możliwości jakie daje
-Maszyna Wirtualna Erlanga w zakresie programowania równoległego oraz dystrybucji
-oprogramowania na wiele węzłów. Dzięki wsparciu dla programowania równoległego
-aplikacja \textit{sdn\_epc} może w tym samym czasie obsługiwać wiele (w
-rzeczywistości tyle, ile wątków może obsłużyć maszyna, na której działa
-aplikacja) podłączonych do niej przełączników sieci SDN. \textit{BEAM} wprowadza
-koncepcję procesów, w kontekście których wykonuje się każdy fragment
-Erlangowego/Elixirowego kodu. Koncepcja ta jest podobna do koncepcji procesów
-systemowych - wykonują się one na wszystkich procesorach (jeden proces na
-jednym procesorze w tym samym czasie), ale mają znacznie mniejszy narzut w
-kontekście zużycia zasobów systemowych niż tradycyjne procesy \cite{progelixir}.
-Wykorzystując koncepcję procesów, kod odpowiedzialny za obsługę przełączników
-podłączonych do aplikacji, wykonuje się w osobnym procesie dla każdego z nich.
-Innym słowy, każdy przełącznik jest obsługiwany przez osobny, dedykowany dla
-niego proces, co umożliwia jednoczesną obsługę wielu przełączników.
+Maszyna Wirtualna Erlanga w zakresie programowania współbieżnego i równoległego
+oraz dystrybucji oprogramowania na wiele węzłów. Dzięki wsparciu dla
+programowania równoległego aplikacja \textit{sdn\_epc} może w tym samym czasie
+obsługiwać wiele (w rzeczywistości tyle, ile wątków może obsłużyć maszyna, na
+której działa aplikacja w tym samym czasie) podłączonych do niej przełączników
+sieci SDN. \textit{BEAM} wprowadza koncepcję procesów, w kontekście których
+wykonuje się każdy fragment Erlangowego/Elixirowego kodu. Koncepcja ta jest
+podobna do koncepcji procesów systemowych - wykonują się one na wszystkich
+procesorach (jeden proces na jednym procesorze w tym samym czasie), ale mają
+znacznie mniejszy narzut w kontekście zużycia zasobów systemowych niż tradycyjne
+procesy \cite{progelixir}. Wykorzystując koncepcję procesów, kod odpowiedzialny
+za obsługę przełączników podłączonych do aplikacji, wykonuje się w osobnym
+procesie dla każdego z nich. Innym słowy, każdy przełącznik jest obsługiwany
+przez osobny, dedykowany dla niego proces, co umożliwia jednoczesną obsługę
+wielu przełączników.
 
 Aplikacja \textit{sdn\_epc} może działać w klastrze, dzięki czemu możliwe jest
 zwiększenie jej wydajności. Do działania w klastrze aplikacja wykorzystuje

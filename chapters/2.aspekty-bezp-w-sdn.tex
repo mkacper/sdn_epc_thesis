@@ -24,12 +24,13 @@ przełączane/rutowane pakiety. Urządzeniem warstwy sterującej jest sterownik
 SDN. Sterownik komunikuje się z przełącznikami z wykorzystaniem tzw.
 południowego interfejsu \cite{sdninterfaces}.
 
-Komunikacja pomiędzy przełącznikami, a sterownikiem w sieci SDN odbywa się z
-wykorzystaniem protokołu \textit{OpenFlow}. Jest on obecnie szeroko stosowany w
-dzisiejszych sieciach SDN \cite{ddoskoreaarticle}. Przełącznik SDN przełącza
-pakiety zgodnie z tablicą przepływów (z ang. \textit{flow table}). Przepływ
-charakteryzuje pewną grupę podobnych pakietów, np. mających taki sam adres
-docelowy \textit{IP}. Każda reguła w tablicy przepływów określa jaką akcję
+Komunikacja pomiędzy przełącznikami, a sterownikiem w sieci SDN może odbywać się
+z wykorzystaniem protokołu \textit{OpenFlow}. Jest on obecnie szeroko stosowany
+w dzisiejszych sieciach SDN \cite{ddoskoreaarticle}, jednakże możliwe jest
+użycie innych protokołów w celu komunikacji wspomianych urządzeń. Przełącznik
+SDN przełącza pakiety zgodnie z tablicą przepływów (z ang. \textit{flow table}).
+Przepływ charakteryzuje pewną grupę podobnych pakietów, np. mających taki sam
+adres docelowy \textit{IP}. Każda reguła w tablicy przepływów określa jaką akcję
 przełącznik powinien podjąć w związku z danymi należącymi do danego
 przepływu, np. przełączyć je na port X. Tablica przepływów jest zarządzana przez
 sterownik sieci SDN.
@@ -72,8 +73,8 @@ sieciowy jest obsługiwany wolniej lub w ogóle, ponieważ sterownik jest zajęt
 przetwarzaniem fałszywego ruchu \cite{indiaarticle}. Ponadto do sterownika jest
 wysyłana duża liczba wiadomości \textit{PACKET\_IN}, co może doprowadzić do jego
 przeciążenia. W przypadku awarii sterownika cała sieć SDN przestaje być
-użyteczna \cite{ddoskoreaarticle}. Z wyż. wym. powodów wczesne wykrycie ataku
-DDoS w sieciach SDN ma kluczowe znaczenie dla poprawnego działania całej sieci.
+użyteczna \cite{ddoskoreaarticle}, dlatego wczesne wykrycie ataku DDoS w
+sieciach SDN ma kluczowe znaczenie dla poprawnego działania całej sieci.
 
 \section{Metody wykrywania ataków DDoS w sieciach SDN}
 
