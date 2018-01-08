@@ -51,7 +51,7 @@ Rys. \ref{fig:entropia_scheme}.
 
 W topologii przedstawionej na Rys. \ref{fig:entropia_scheme} wszystkie
 przełączniki obsługujące ruch pomiędzy węzłami końcowymi (\textit{PC N})
-komunikują się z sterownikiem (\textit{SDN controller}) poprzez jeden węzeł
+komunikują się z sterownikiem (\textit{sterownik SDN}) poprzez jeden węzeł
 aplikacji \textit{sdn\_epc}. Wykorzystując taką konfigurację sieci, tylko jeden
 węzeł \textit{sdn\_epc} przetwarza wiadomości \mbox{\textit{PACKET\_IN}}
 protokołu \textit{OpenFlow}, wymieniane pomiędzy poszczególnymi przełącznikami,
@@ -89,17 +89,17 @@ Przełączniki sieci SDN (\textit{SDN switch}) oraz węzły końcowe (\textit{PC
 przełączniki to domyślne przełączniki używane przez oprogramowanie
 \textit{Mininet}, które działają na bazie oprogramowania
 \textit{Open vSwitch \footnote{http://openvswitch.org}} \cite{mininetwiki}.
-\textit{SDN controller}, pełniący funkcję sterownika w testowej topologii,
-korzystał z oprogramowania zbudowanego z wykrzystaniem framework'a
-\textit{Ryu \footnote{https://osrg.github.io/ryu}}. Maszyny wirtualne dedykowane
-dla \textit{sdn\_epc} i \textit{SDN controller} działały pod kontrolą systemu
-operacyjnego \textit{Ubuntu \footnote{https://www.ubuntu.com}}.
+\textit{Sterownik SDN} korzystał z oprogramowania zbudowanego z wykrzystaniem
+framework'a \textit{Ryu \footnote{https://osrg.github.io/ryu}}. Maszyny
+wirtualne dedykowane dla \textit{sdn\_epc} i \textit{sterownika SDN} działały
+pod kontrolą systemu operacyjnego \textit{Ubuntu
+  \footnote{https://www.ubuntu.com}}.
 
 W celu poprawnego działania algorytmu musi zostać spełnione założenie: dla
-każdego nowego połączenia (adres źródłowy/docelowy, port źródłowy/docelowy oraz
+każdego nowego przepływu (adres źródłowy/docelowy, port źródłowy/docelowy oraz
 protokół; na potrzeby ninejszej pracy wykorzystano tylko adres
 docelowy/źródłowy) sterownik sieci SDN instaluje nowy wpis w przełączniku
-sieci SDN \cite{mainddosarticle}. Przy takim założeniu każde nowe połączenie w
+sieci SDN \cite{mainddosarticle}. Przy takim założeniu każdy nowy przepływ w
 sieci wygeneruje wiadomość \textit{PACKET\_IN}, która następnie zostanie
 przeanalizowana przez węzeł \textit{sdn\_epc}. Aby spełnić to założenie należało
 zmodyfikować logikę przełącznika zaimplementowaną w sterowniku. Modyfikacja

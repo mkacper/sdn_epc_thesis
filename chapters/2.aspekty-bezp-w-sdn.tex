@@ -115,13 +115,13 @@ opisany w rozdziale \ref{algorithm} strona \pageref{algorithm}.
 System wykrywania ataków DDoS opisany w \cite{bloomarticle} jest w stanie wykryć
 typ ataków skierowanych na poszczególne łącze w sieci. Tego typu atak ma na celu
 wysycenie konkretnego łącza. Proponowane rozwiązanie bazuje na analizie tablic
-przepływów oraz pakietów w sieci SDN. Opisywany system składa się z dwóch
-elementów: \textit{Collector}'a oraz \textit{Detector}'a. \textit{Collector} ma
-za zadanie skanować tablice przepływów w sieci w celu znalezienia podejrzanych
-przepływów (odpowiedzialnych za wysycenia łącza). Podejrzane przepływy są
-zapisywane w specjalnej strukturze danych, na potrzeby której wykorzystano Filtr
-Blooma \footnote{https://en.wikipedia.org/wiki/Bloom\_filter}.
-Odpowiedzialnością \textit{Detecor}'a jest skanowanie sieci w celu pozyskania
-pakietów do analizy. Następnie komponent sprawdza, czy dany pakiet należy do
-któregoś z podejrzanych przepływów i wysyła odpowiednie powiadomienie do
-sterownika SDN.
+przepływów oraz nagłówków pakietów \textit{IP} w sieci SDN. Opisywany system
+składa się z dwóch elementów: \textit{Collector}'a oraz \textit{Detector}'a.
+\textit{Collector} ma za zadanie skanować tablice przepływów w sieci w celu
+znalezienia podejrzanych przepływów (odpowiedzialnych za wysycenia łącza).
+Podejrzane przepływy są zapisywane w specjalnej strukturze danych, na potrzeby
+której wykorzystano Filtr Blooma
+\footnote{https://en.wikipedia.org/wiki/Bloom\_filter}. Odpowiedzialnością
+\textit{Detecor}'a jest skanowanie sieci w celu pozyskania pakietów do analizy.
+Następnie komponent sprawdza, czy dany pakiet należy do któregoś z podejrzanych
+przepływów i wysyła odpowiednie powiadomienie do sterownika SDN.
